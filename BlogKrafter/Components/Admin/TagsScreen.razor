@@ -1,0 +1,50 @@
+<PageTitle>Tags · @Options.Value.Title</PageTitle>
+
+<PageHeader Title="Tags" Icon="link" Description="Tags are added while writing a post. Rename one to the name of another to merge them." />
+
+@if (tags is null && loadError is null)
+{
+    <p class="nf-muted">Loading tags…</p>
+}
+else if (loadError is not null)
+{
+    <EmptyState Icon="alert" Title="The tags could not be loaded" Description="@loadError" />
+}
+else if (tags!.Count == 0)
+{
+    <EmptyState Icon="link" Title="No tags yet" Description="Tags you add to posts will be listed here." />
+}
+else
+{
+    <Table>
+        <thead>
+            <tr>
+                <th>Tag</th>
+                <th>Address</th>
+                <th class="bk-num">Posts</th>
+                <th><span class="nf-sr-only">Actions</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tag in tags)
+            {
+                <tr @key="tag.Id">
+                    <td>#@tag.Name</td>
+                    <td class="nf-muted">@Urls.Tag(tag.Slug)</td>
+                    <td class="bk-num">@tag.PostCount</td>
+                    <td class="bk-row-actions">
+                        <a class="nf-icon-button" href="@Urls.Tag(tag.Slug)" target="_blank" rel="noopener noreferrer" title="View" aria-label="@($"View {tag.Name}")">
+                            <Icon Name="external" Size="16" />
+                        </a>
+                        <button type="button" class="nf-icon-button" title="Rename" aria-label="@($"Rename {tag.Name}")" @onclick="() => RenameAsync(tag)">
+                            <Icon Name="edit" Size="16" />
+                        </button>
+                        <button type="button" class="nf-icon-button nf-danger-hover" title="Delete" aria-label="@($"Delete {tag.Name}")" @onclick="() => DeleteAsync(tag)">
+                            <Icon Name="trash" Size="16" />
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </Table>
+}

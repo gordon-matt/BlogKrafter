@@ -1,0 +1,10 @@
+using Microsoft.EntityFrameworkCore.Design;
+
+namespace BlogKrafter.Data.Sqlite;
+
+/// <summary>Used by <c>dotnet ef</c>, so migrations can be generated without a host application.</summary>
+public sealed class BlogKrafterDbContextDesignTimeFactory : IDesignTimeDbContextFactory<BlogKrafterDbContext>
+{
+    public BlogKrafterDbContext CreateDbContext(string[] args) =>
+        new(BlogKrafterDbContextFactory.BuildOptions("Data Source=blogkrafter_design.db"));
+}

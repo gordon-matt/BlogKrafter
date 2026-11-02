@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<IsPackable>false</IsPackable>
+		<!-- WebFilez's file browser runs in a frame that loads blazor.server.js. -->
+		<RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
+		<BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Pickstack.FileManager.WebFilez" Version="1.0.1" />
+		<PackageReference Include="Pickstack.RichTextEditor.TinyMce7" Version="1.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BlogKrafter\BlogKrafter.csproj" />
+		<ProjectReference Include="..\BlogKrafter.Data.Sqlite\BlogKrafter.Data.Sqlite.csproj" />
+	</ItemGroup>
+
+</Project>

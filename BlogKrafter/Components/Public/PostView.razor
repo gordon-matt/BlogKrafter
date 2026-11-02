@@ -1,0 +1,148 @@
+@if (post is null)
+{
+    @if (loadError is not null)
+    {
+        <EmptyState Icon="alert" Title="This post could not be loaded" Description="@loadError" />
+    }
+    else if (!notFound)
+    {
+        <p class="nf-muted">Loading the post…</p>
+    }
+}
+else
+{
+    <PageTitle>@(post.MetaTitle ?? post.Title) · @Options.Value.Title</PageTitle>
+    <HeadContent>
+        <meta name="description" content="@Description" />
+        @if (post.State != PostState.Published)
+        {
+            <meta name="robots" content="noindex, nofollow" />
+        }
+        else
+        {
+            <link rel="canonical" href="@CanonicalUrl" />
+        }
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="@(post.MetaTitle ?? post.Title)" />
+        <meta property="og:description" content="@Description" />
+        <meta property="og:url" content="@CanonicalUrl" />
+        <meta property="og:site_name" content="@Options.Value.Title" />
+        @if (CoverImageUrl is not null)
+        {
+            <meta property="og:image" content="@CoverImageUrl" />
+            @if (!string.IsNullOrWhiteSpace(post.CoverImageAlt))
+            {
+                <meta property="og:image:alt" content="@post.CoverImageAlt" />
+            }
+        }
+        @if (post.PublishedAt is DateTime published)
+        {
+            <meta property="article:published_time" content="@IsoDate(published)" />
+        }
+        <meta property="article:modified_time" content="@IsoDate(post.UpdatedAt)" />
+        @foreach (var tag in post.Tags)
+        {
+            <meta property="article:tag" content="@tag.Name" />
+        }
+        <meta name="twitter:card" content="@(CoverImageUrl is null ? "summary" : "summary_large_image")" />
+        <link rel="alternate" type="application/rss+xml" title="@Options.Value.Title" href="@Urls.Rss()" />
+        @((MarkupString)StructuredData)
+    </HeadContent>
+
+    <div class="bk-post-layout">
+        <article class="bk-post">
+            @if (post.State != PostState.Published)
+            {
+                <div class="bk-preview-notice" role="status">
+                    <Icon Name="info" Size="18" />
+                    <div>
+                        <strong>Preview: @(post.State == PostState.Draft ? "this draft is not published" : "this post is scheduled and not live yet")</strong>
+                        <p>Only editors can see this page. Readers will see the post once it is published.</p>
+                    </div>
+                </div>
+            }
+
+            <header class="bk-post-header">
+                <PostMeta PublishedAt="@post.PublishedAt" AuthorName="@post.AuthorName" ReadingTimeMinutes="@post.ReadingTimeMinutes" Category="@post.Category" />
+                <h1 class="bk-post-title">@post.Title</h1>
+                @if (!string.IsNullOrWhiteSpace(post.Summary))
+                {
+                    <p class="bk-post-lead">@post.Summary</p>
+                }
+            </header>
+
+            @if (!string.IsNullOrWhiteSpace(post.CoverImageUrl))
+            {
+                <figure class="bk-post-cover">
+                    <img src="@post.CoverImageUrl" alt="@(post.CoverImageAlt ?? string.Empty)" />
+                </figure>
+            }
+
+            @* Sanitised when the post was saved. *@
+            <div class="bk-prose">@((MarkupString)post.ContentHtml)</div>
+
+            @if (post.Tags.Count > 0)
+            {
+                <footer class="bk-post-footer">
+                    <TagList Tags="@post.Tags" />
+                </footer>
+            }
+
+            @if (post.Previous is not null || post.Next is not null)
+            {
+                <nav class="bk-adjacent" aria-label="More posts">
+                    @if (post.Previous is { } previous)
+                    {
+                        <a class="bk-adjacent-link" href="@Urls.Post(previous.Slug)" rel="prev">
+                            <span class="nf-muted">Previous</span>
+                            <span>@previous.Title</span>
+                        </a>
+                    }
+                    @if (post.Next is { } next)
+                    {
+                        <a class="bk-adjacent-link is-next" href="@Urls.Post(next.Slug)" rel="next">
+                            <span class="nf-muted">Next</span>
+                            <span>@next.Title</span>
+                        </a>
+                    }
+                </nav>
+            }
+
+            @if (post.Related.Count > 0)
+            {
+                <section class="bk-related" aria-labelledby="bk-related-heading">
+                    <h2 id="bk-related-heading">Related posts</h2>
+                    <div class="bk-related-grid">
+                        @foreach (var related in post.Related)
+                        {
+                            <a class="bk-related-card" href="@Urls.Post(related.Slug)">
+                                <span class="bk-related-title">@related.Title</span>
+                                <span class="nf-muted nf-small">@related.ReadingTimeMinutes min read</span>
+                            </a>
+                        }
+                    </div>
+                </section>
+            }
+
+            @if (post.CommentsEnabled && post.State == PostState.Published && Options.Value.CommentsComponent is { } comments)
+            {
+                <section class="bk-comments" aria-label="Comments">
+                    <DynamicComponent Type="@comments" Parameters="@CommentParameters" />
+                </section>
+            }
+        </article>
+
+        @if (post.TableOfContents.Count > 0)
+        {
+            <nav class="bk-toc" aria-labelledby="bk-toc-heading">
+                <h2 id="bk-toc-heading">On this page</h2>
+                <ol>
+                    @foreach (var entry in post.TableOfContents)
+                    {
+                        <li class="@(entry.Level == 3 ? "is-nested" : null)"><a href="@Anchor(entry.Id)">@entry.Text</a></li>
+                    }
+                </ol>
+            </nav>
+        }
+    </div>
+}

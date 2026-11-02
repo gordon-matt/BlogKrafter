@@ -1,0 +1,10 @@
+@page "/admin/blog"
+@page "/admin/blog/{Section}"
+@page "/admin/blog/{Section}/{Id}"
+@attribute [Authorize(Policy = BlogKrafterPolicies.Manage)]
+@layout BlogAdminLayout
+
+@if (isDefaultPath)
+{
+    <BlogAdminView Section="@Section" Id="@Id" />
+}

@@ -1,0 +1,44 @@
+<div class="bk-content-editor">
+    <div class="bk-content-editor-head">
+        <span class="bk-label">Content</span>
+        @if (Capabilities.CanChooseFormat)
+        {
+            <div class="nf-chip-row" role="group" aria-label="Editor">
+                <Chip Selected="@(Format == ContentFormat.Markdown)" OnClick="() => SwitchAsync(ContentFormat.Markdown)">Markdown</Chip>
+                <Chip Selected="@(Format == ContentFormat.Html)" OnClick="() => SwitchAsync(ContentFormat.Html)">Rich text</Chip>
+            </div>
+        }
+    </div>
+
+    @if (!Capabilities.Allows(Format))
+    {
+        <div class="bk-format-notice" role="status">
+            <Icon Name="info" Size="16" />
+            <span>
+                @if (Format == ContentFormat.Html)
+                {
+                    <text>This post was written with a rich text editor, which this site no longer has. Its HTML is shown below.</text>
+                }
+                else
+                {
+                    <text>This post was written in Markdown, which this site no longer offers.</text>
+                    <button type="button" class="nf-link-button" @onclick="() => SwitchAsync(ContentFormat.Html)">Convert to rich text</button>
+                }
+            </span>
+        </div>
+    }
+
+    @if (Format == ContentFormat.Html && Capabilities.HasRichTextEditor)
+    {
+        <PickstackEditor @key="editorGeneration" Value="@Content" ValueChanged="ContentChanged" Height="520" FileRoot="@Options.Value.FileRoot" />
+    }
+    else if (Format == ContentFormat.Html)
+    {
+        <textarea class="nf-textarea nf-textarea-code bk-markdown-input" aria-label="Content (HTML)"
+                  value="@Content" @onchange="HtmlChangedAsync" rows="22"></textarea>
+    }
+    else
+    {
+        <MarkdownEditor @key="editorGeneration" Value="@Content" ValueChanged="ContentChanged" />
+    }
+</div>

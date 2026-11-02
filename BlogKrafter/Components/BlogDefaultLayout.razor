@@ -1,0 +1,20 @@
+@inherits LayoutComponentBase
+
+<div class="bk-site">
+    <header class="bk-site-header">
+        <div class="bk-container bk-site-header-inner">
+            <a class="bk-site-title" href="@Urls.Index()">@Options.Value.Title</a>
+            <nav class="bk-site-nav" aria-label="Blog">
+                <a href="@Urls.Archive()">Archive</a>
+                <a href="@Urls.Rss()" data-enhance-nav="false">RSS</a>
+                <ThemeToggle />
+            </nav>
+        </div>
+    </header>
+
+    <main class="bk-container bk-site-main">
+        @Body
+    </main>
+</div>
+
+<ForgeDialogHost />

@@ -1,0 +1,9 @@
+@if (Tags.Count > 0)
+{
+    <ul class="bk-tags" aria-label="Tags">
+        @foreach (var tag in Tags)
+        {
+            <li><a class="bk-tag" href="@Urls.Tag(tag.Slug)">#@tag.Name</a></li>
+        }
+    </ul>
+}

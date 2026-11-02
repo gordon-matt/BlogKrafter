@@ -1,0 +1,25 @@
+@inherits LayoutComponentBase
+
+<div class="site">
+    <header class="site-header">
+        <div class="site-container site-header-inner">
+            <a class="site-brand" href="">Field Notes</a>
+            <nav class="site-nav" aria-label="Site">
+                <NavLink href="" Match="NavLinkMatch.All">Home</NavLink>
+                <NavLink href="blog">Blog</NavLink>
+                <a href="admin/blog">Write</a>
+                <ThemeToggle />
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container site-main">
+        @Body
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-container">A demo of BlogKrafter. Local requests are signed in as an editor.</div>
+    </footer>
+</div>
+
+<ForgeDialogHost />

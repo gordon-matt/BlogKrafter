@@ -1,0 +1,96 @@
+<PageTitle>@PageTitleText</PageTitle>
+<HeadContent>
+    @if (!string.IsNullOrWhiteSpace(Options.Value.Description))
+    {
+        <meta name="description" content="@Options.Value.Description" />
+    }
+    @if (!string.IsNullOrWhiteSpace(Search) || Page > 1)
+    {
+        <meta name="robots" content="noindex, follow" />
+    }
+    <link rel="alternate" type="application/rss+xml" title="@Options.Value.Title" href="@Urls.Rss()" />
+    <link rel="alternate" type="application/atom+xml" title="@Options.Value.Title" href="@Urls.Atom()" />
+</HeadContent>
+
+<div class="bk-blog">
+    <div class="bk-main">
+        <header class="bk-list-header">
+            @if (result?.Tag is { } tag)
+            {
+                <p class="bk-eyebrow">Tag</p>
+                <h1 class="bk-list-title">@tag.Name</h1>
+                <p class="nf-muted">@PostCountText(tag.PostCount) · <a href="@Urls.Index()">All posts</a></p>
+            }
+            else if (result?.Category is { } category)
+            {
+                <p class="bk-eyebrow">Category</p>
+                <h1 class="bk-list-title">@category.Name</h1>
+                @if (!string.IsNullOrWhiteSpace(category.Description))
+                {
+                    <p class="bk-list-description">@category.Description</p>
+                }
+                <p class="nf-muted">@PostCountText(category.PostCount) · <a href="@Urls.Index()">All posts</a></p>
+            }
+            else
+            {
+                <h1 class="bk-list-title">@Options.Value.Title</h1>
+                @if (!string.IsNullOrWhiteSpace(Options.Value.Description))
+                {
+                    <p class="bk-list-description">@Options.Value.Description</p>
+                }
+            }
+        </header>
+
+        @if (!string.IsNullOrWhiteSpace(Search))
+        {
+            <p class="bk-search-summary">
+                @if (result is not null)
+                {
+                    <span>@PostCountText(result.Posts.TotalCount) matching “@Search”.</span>
+                }
+                <a href="@Urls.Index()">Clear search</a>
+            </p>
+        }
+
+        @if (result is null && loadError is null)
+        {
+            <p class="nf-muted">Loading posts…</p>
+        }
+        else if (loadError is not null)
+        {
+            <EmptyState Icon="alert" Title="The posts could not be loaded" Description="@loadError" />
+        }
+        else if (result!.Posts.Items.Count == 0)
+        {
+            <EmptyState Icon="book"
+                        Title="@(string.IsNullOrWhiteSpace(Search) ? "No posts yet" : "No posts match")"
+                        Description="@(string.IsNullOrWhiteSpace(Search) ? "Published posts will appear here." : "Try fewer or different words.")" />
+        }
+        else
+        {
+            <div class="bk-post-list">
+                @foreach (var post in result.Posts.Items)
+                {
+                    <PostCard Post="@post" />
+                }
+            </div>
+
+            @if (result.Posts.PageCount > 1)
+            {
+                <nav class="bk-pager" aria-label="Pages">
+                    @if (result.Posts.HasPrevious)
+                    {
+                        <a class="nf-button" href="@PageHref(Page - 1)" rel="prev"><Icon Name="chevron-left" Size="16" /> Newer</a>
+                    }
+                    <span class="nf-muted">Page @Page of @result.Posts.PageCount</span>
+                    @if (result.Posts.HasNext)
+                    {
+                        <a class="nf-button" href="@PageHref(Page + 1)" rel="next">Older <Icon Name="chevron-right" Size="16" /></a>
+                    }
+                </nav>
+            }
+        }
+    </div>
+
+    <BlogSidebar Search="@Search" ActiveTag="@TagSlug" ActiveCategory="@CategorySlug" />
+</div>

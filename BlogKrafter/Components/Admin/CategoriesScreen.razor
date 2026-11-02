@@ -1,0 +1,88 @@
+<PageTitle>Categories · @Options.Value.Title</PageTitle>
+
+<PageHeader Title="Categories" Icon="bookmark" Description="Each post can sit in one category. Readers can browse by category.">
+    <Actions>
+        <button type="button" class="nf-button nf-button-primary" @onclick="() => Edit(null)"><Icon Name="plus" Size="16" /> New category</button>
+    </Actions>
+</PageHeader>
+
+@if (categories is null && loadError is null)
+{
+    <p class="nf-muted">Loading categories…</p>
+}
+else if (loadError is not null)
+{
+    <EmptyState Icon="alert" Title="The categories could not be loaded" Description="@loadError" />
+}
+else if (categories!.Count == 0)
+{
+    <EmptyState Icon="bookmark" Title="No categories yet" Description="Add one to group related posts under a heading of their own." />
+}
+else
+{
+    <Table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th class="bk-num">Order</th>
+                <th class="bk-num">Posts</th>
+                <th><span class="nf-sr-only">Actions</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in categories)
+            {
+                <tr @key="category.Id">
+                    <td>
+                        <button type="button" class="bk-row-link" @onclick="() => Edit(category)">@category.Name</button>
+                        @if (!string.IsNullOrWhiteSpace(category.Description))
+                        {
+                            <div class="nf-muted nf-small nf-truncate bk-cell-note">@category.Description</div>
+                        }
+                    </td>
+                    <td class="nf-muted">@Urls.Category(category.Slug)</td>
+                    <td class="bk-num">@category.SortOrder</td>
+                    <td class="bk-num">@category.PostCount</td>
+                    <td class="bk-row-actions">
+                        <a class="nf-icon-button" href="@Urls.Category(category.Slug)" target="_blank" rel="noopener noreferrer" title="View" aria-label="@($"View {category.Name}")">
+                            <Icon Name="external" Size="16" />
+                        </a>
+                        <button type="button" class="nf-icon-button" title="Edit" aria-label="@($"Edit {category.Name}")" @onclick="() => Edit(category)">
+                            <Icon Name="edit" Size="16" />
+                        </button>
+                        <button type="button" class="nf-icon-button nf-danger-hover" title="Delete" aria-label="@($"Delete {category.Name}")" @onclick="() => DeleteAsync(category)">
+                            <Icon Name="trash" Size="16" />
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </Table>
+}
+
+<Drawer Title="@(form.Id is null ? "New category" : "Edit category")" Open="@editing" Scrim="true" Width="420px" OnClose="Close">
+    <ChildContent>
+        <Field Label="Name" For="bk-category-name">
+            <input id="bk-category-name" class="nf-input" @bind="form.Name" maxlength="128" />
+            <FieldError Message="@ErrorFor(nameof(SaveCategoryRequest.Name))" />
+        </Field>
+        <Field Label="Address" For="bk-category-slug">
+            <input id="bk-category-slug" class="nf-input" @bind="form.Slug" maxlength="200" placeholder="Made from the name" />
+            <FieldError Message="@ErrorFor(nameof(SaveCategoryRequest.Slug))" />
+        </Field>
+        <Field Label="Description" For="bk-category-description">
+            <textarea id="bk-category-description" class="nf-textarea" @bind="form.Description" maxlength="1000" rows="3"
+                      placeholder="Optional. Shown at the top of the category's page."></textarea>
+            <FieldError Message="@ErrorFor(nameof(SaveCategoryRequest.Description))" />
+        </Field>
+        <Field Label="Order" For="bk-category-order">
+            <input id="bk-category-order" class="nf-input bk-narrow" type="number" @bind="form.SortOrder" />
+            <p class="nf-hint">Lower numbers are listed first.</p>
+        </Field>
+        <div class="nf-form-actions">
+            <button type="button" class="nf-button" @onclick="Close">Cancel</button>
+            <button type="button" class="nf-button nf-button-primary" disabled="@saving" @onclick="SaveAsync">@(saving ? "Saving…" : "Save")</button>
+        </div>
+    </ChildContent>
+</Drawer>

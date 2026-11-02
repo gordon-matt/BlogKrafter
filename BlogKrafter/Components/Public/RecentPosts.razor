@@ -1,0 +1,46 @@
+<BlogStyles />
+<section class="bk-recent">
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <h2 class="bk-recent-title">@Title</h2>
+    }
+
+    @if (posts is null)
+    {
+        <p class="nf-muted">Loading posts…</p>
+    }
+    else if (posts.Count == 0)
+    {
+        <p class="nf-muted">No posts yet.</p>
+    }
+    else if (Compact)
+    {
+        <ul class="bk-recent-list">
+            @foreach (var post in posts)
+            {
+                <li>
+                    <a href="@Urls.Post(post.Slug)">@post.Title</a>
+                    @if (post.PublishedAt is DateTime publishedUtc)
+                    {
+                        var published = TimeZone.ToLocal(publishedUtc);
+                        <time class="nf-muted nf-small" datetime="@published.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)">@published.ToString(Options.Value.DateFormat, CultureInfo.CurrentCulture)</time>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="bk-recent-grid">
+            @foreach (var post in posts)
+            {
+                <PostCard Post="@post" />
+            }
+        </div>
+    }
+
+    @if (ShowMoreLink && posts is { Count: > 0 })
+    {
+        <p class="bk-recent-more"><a href="@MoreHref">More posts <Icon Name="chevron-right" Size="14" /></a></p>
+    }
+</section>

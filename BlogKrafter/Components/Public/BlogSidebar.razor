@@ -1,0 +1,48 @@
+<aside class="bk-sidebar" aria-label="Browse the blog">
+    @* A plain GET form, so search works whether or not the page is interactive. *@
+    <form class="bk-search" method="get" action="@Urls.Index()" role="search">
+        <label class="nf-sr-only" for="bk-search">Search posts</label>
+        <input id="bk-search" class="nf-input" type="search" name="q" value="@Search" placeholder="Search posts…" />
+        <button class="nf-button" type="submit" aria-label="Search"><Icon Name="search" Size="16" /></button>
+    </form>
+
+    @if (categories.Count > 0)
+    {
+        <section class="bk-sidebar-section">
+            <h2>Categories</h2>
+            <ul class="bk-sidebar-list">
+                @foreach (var category in categories)
+                {
+                    <li>
+                        <a class="@(IsActive(category.Slug, ActiveCategory) ? "is-active" : null)" href="@Urls.Category(category.Slug)">@category.Name</a>
+                        <span class="nf-muted">@category.PostCount</span>
+                    </li>
+                }
+            </ul>
+        </section>
+    }
+
+    @if (tags.Count > 0)
+    {
+        <section class="bk-sidebar-section">
+            <h2>Tags</h2>
+            <ul class="bk-tags">
+                @foreach (var tag in tags)
+                {
+                    <li>
+                        <a class="bk-tag @(IsActive(tag.Slug, ActiveTag) ? "is-active" : null)" href="@Urls.Tag(tag.Slug)">#@tag.Name <span class="nf-muted">@tag.PostCount</span></a>
+                    </li>
+                }
+            </ul>
+        </section>
+    }
+
+    <section class="bk-sidebar-section">
+        <h2>More</h2>
+        <ul class="bk-sidebar-list">
+            <li><a href="@Urls.Archive()">Every post, by year</a></li>
+            <li><a href="@Urls.Rss()" data-enhance-nav="false">RSS feed</a></li>
+            <li><a href="@Urls.Atom()" data-enhance-nav="false">Atom feed</a></li>
+        </ul>
+    </section>
+</aside>

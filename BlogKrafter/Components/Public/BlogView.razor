@@ -1,0 +1,12 @@
+@if (IsArchive)
+{
+    <ArchiveView />
+}
+else if (!string.IsNullOrWhiteSpace(Slug))
+{
+    <PostView Slug="@Slug" Preview="@preview" />
+}
+else
+{
+    <PostList Page="@(PageNumber ?? 1)" Search="@Search" TagSlug="@Tag" CategorySlug="@Category" />
+}

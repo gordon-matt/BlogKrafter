@@ -1,0 +1,17 @@
+<article class="bk-card @(Post.IsFeatured ? "is-featured" : null)">
+    @if (!string.IsNullOrWhiteSpace(Post.CoverImageUrl))
+    {
+        <a class="bk-card-cover" href="@Urls.Post(Post.Slug)" tabindex="-1" aria-hidden="true">
+            <img src="@Post.CoverImageUrl" alt="@(Post.CoverImageAlt ?? string.Empty)" loading="lazy" />
+        </a>
+    }
+    <div class="bk-card-body">
+        <PostMeta PublishedAt="@Post.PublishedAt" ReadingTimeMinutes="@Post.ReadingTimeMinutes" Category="@Post.Category" />
+        <h2 class="bk-card-title"><a href="@Urls.Post(Post.Slug)">@Post.Title</a></h2>
+        @if (!string.IsNullOrWhiteSpace(Post.Excerpt))
+        {
+            <p class="bk-card-excerpt">@Post.Excerpt</p>
+        }
+        <TagList Tags="@Post.Tags" />
+    </div>
+</article>

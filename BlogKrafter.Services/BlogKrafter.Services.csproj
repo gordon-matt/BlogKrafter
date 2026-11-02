@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>Services, content rendering and feeds for the BlogKrafter blog engine.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Ardalis.Result" Version="10.1.0" />
+		<PackageReference Include="Heroicsoft.NetForge.Abstractions" Version="1.2.0" />
+		<PackageReference Include="Heroicsoft.NetForge.Results" Version="1.2.0" />
+		<PackageReference Include="HtmlSanitizer" Version="9.2.1039" />
+		<PackageReference Include="Markdig" Version="1.5.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.14" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.14" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.14" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="BlogKrafter.Tests" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BlogKrafter.Data\BlogKrafter.Data.csproj" />
+	</ItemGroup>
+
+</Project>

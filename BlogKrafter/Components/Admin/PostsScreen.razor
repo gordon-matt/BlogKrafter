@@ -1,0 +1,89 @@
+<PageTitle>Posts · @Options.Value.Title</PageTitle>
+
+<PageHeader Title="Posts" Icon="book" Description="Write, schedule and publish posts.">
+    <Actions>
+        <a class="nf-button nf-button-primary" href="@Urls.AdminNewPost()"><Icon Name="plus" Size="16" /> New post</a>
+    </Actions>
+</PageHeader>
+
+<div class="bk-toolbar">
+    <div class="nf-chip-row" role="group" aria-label="Show">
+        @foreach (var option in Filters)
+        {
+            <Chip Selected="@(filter == option.Filter)" OnClick="@(() => SetFilterAsync(option.Filter))">@option.Label</Chip>
+        }
+    </div>
+    <SearchField Value="@search" ValueChanged="SearchChangedAsync" Placeholder="Search titles…" Class="bk-toolbar-search" />
+</div>
+
+@if (listing is null && loadError is null)
+{
+    <p class="nf-muted">Loading posts…</p>
+}
+else if (loadError is not null)
+{
+    <EmptyState Icon="alert" Title="The posts could not be loaded" Description="@loadError" />
+}
+else if (listing!.TotalCount == 0)
+{
+    @if (filter == PostFilter.All && string.IsNullOrWhiteSpace(search))
+    {
+        <EmptyState Icon="book" Title="No posts yet" Description="Start with a title; you can save a draft and come back.">
+            <a class="nf-button nf-button-primary" href="@Urls.AdminNewPost()"><Icon Name="plus" Size="16" /> Write the first post</a>
+        </EmptyState>
+    }
+    else
+    {
+        <EmptyState Icon="search" Title="No posts match" Description="Change the filter or the search." />
+    }
+}
+else
+{
+    <Table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Published</th>
+                <th>Updated</th>
+                <th><span class="nf-sr-only">Actions</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in listing.Items)
+            {
+                <tr @key="row.Id">
+                    <td>
+                        <a class="bk-row-title" href="@Urls.AdminEditPost(row.Id)">@row.Title</a>
+                        @if (row.IsFeatured)
+                        {
+                            <span class="nf-badge nf-badge-accent">Featured</span>
+                        }
+                        <div class="nf-muted nf-small">@Urls.Post(row.Slug)</div>
+                    </td>
+                    <td><StateBadge State="@row.State" /></td>
+                    <td>@(row.CategoryName ?? "—")</td>
+                    <td class="bk-nowrap">@FormatDate(row.PublishedAt)</td>
+                    <td class="bk-nowrap">@FormatDate(row.UpdatedAt)</td>
+                    <td class="bk-row-actions">
+                        <a class="nf-icon-button" href="@ViewHref(row)" target="_blank" rel="noopener noreferrer"
+                           title="@(row.State == PostState.Published ? "View" : "Preview")" aria-label="@($"{(row.State == PostState.Published ? "View" : "Preview")} {row.Title}")">
+                            <Icon Name="external" Size="16" />
+                        </a>
+                        <a class="nf-icon-button" href="@Urls.AdminEditPost(row.Id)" title="Edit" aria-label="@($"Edit {row.Title}")">
+                            <Icon Name="edit" Size="16" />
+                        </a>
+                        <button type="button" class="nf-icon-button nf-danger-hover" title="Delete" aria-label="@($"Delete {row.Title}")"
+                                @onclick="() => DeleteAsync(row)">
+                            <Icon Name="trash" Size="16" />
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </Table>
+
+    <Pager PageNumber="@pageNumber" PageSize="@pageSize" TotalCount="@listing.TotalCount"
+           PageSizes="@PageSizes" PageNumberChanged="GoToPageAsync" PageSizeChanged="SetPageSizeAsync" />
+}

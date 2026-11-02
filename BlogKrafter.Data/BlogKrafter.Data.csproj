@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>Provider-agnostic data model for the BlogKrafter blog engine.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Extenso.Data.Entity" Version="10.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.14" />	</ItemGroup>
+
+</Project>

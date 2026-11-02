@@ -1,0 +1,28 @@
+@if (!string.IsNullOrWhiteSpace(Url))
+{
+    <figure class="bk-cover-preview">
+        <img src="@Url" alt="@(Alt ?? string.Empty)" />
+    </figure>
+}
+
+<Field Label="Image address" For="bk-cover-url">
+    <div class="bk-input-row">
+        <input id="bk-cover-url" class="nf-input @(UrlError is null ? null : "invalid")" value="@Url" @onchange="UrlEditedAsync"
+               placeholder="/media/cover.jpg or https://…" />
+        @if (Capabilities.HasFileManager)
+        {
+            <button type="button" class="nf-button" @onclick="BrowseAsync">Browse</button>
+        }
+    </div>
+    <FieldError Message="@(UrlError ?? pickError)" />
+</Field>
+
+@if (!string.IsNullOrWhiteSpace(Url))
+{
+    <Field Label="Description for screen readers" For="bk-cover-alt">
+        <input id="bk-cover-alt" class="nf-input @(AltError is null ? null : "invalid")" value="@Alt" @onchange="AltEditedAsync"
+               maxlength="256" placeholder="What the image shows" />
+        <FieldError Message="@AltError" />
+    </Field>
+    <button type="button" class="nf-link-button" @onclick="RemoveAsync"><Icon Name="x" Size="14" /> Remove image</button>
+}

@@ -1,0 +1,9 @@
+global using Ardalis.Result;
+global using BlogKrafter.Infrastructure;
+global using BlogKrafter.Models;
+global using BlogKrafter.Routing;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Components;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Options;

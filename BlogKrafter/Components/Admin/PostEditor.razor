@@ -1,0 +1,175 @@
+<PageTitle>@(IsNew ? "New post" : model.Title) · @Options.Value.Title</PageTitle>
+
+@if (loading)
+{
+    <p class="nf-muted">Loading the post…</p>
+}
+else if (loadError is not null)
+{
+    <EmptyState Icon="alert" Title="This post could not be opened" Description="@loadError">
+        <a class="nf-button" href="@Urls.Admin()">Back to posts</a>
+    </EmptyState>
+}
+else
+{
+    @if (Capabilities.HasRichTextEditor || Capabilities.HasFileManager)
+    {
+        @* Loads the editor and file manager the host registered with Pickstack. *@
+        <PickstackScripts />
+    }
+
+    <PageHeader Title="@(IsNew ? "New post" : "Edit post")" Icon="edit">
+        <Actions>
+            <button type="button" class="nf-button" @onclick="() => showDetails = true">
+                <Icon Name="settings" Size="16" /> Details
+            </button>
+            <button type="button" class="nf-button nf-button-primary" disabled="@saving" @onclick="SaveAsync">
+                <Icon Name="save" Size="16" /> @(saving ? "Saving…" : SaveLabel)
+            </button>
+        </Actions>
+    </PageHeader>
+
+    <div class="nf-split bk-editor">
+        <div class="bk-editor-main">
+            <Field Label="Title" For="bk-title">
+                <input id="bk-title" class="nf-input bk-title-input @Invalid(nameof(SavePostRequest.Title))" @bind="model.Title" @bind:event="oninput"
+                       maxlength="256" placeholder="A clear, specific title" />
+                <FieldError Message="@ErrorFor(nameof(SavePostRequest.Title))" />
+            </Field>
+
+            <ContentEditor @bind-Format="model.ContentFormat" @bind-Content="model.Content" />
+            <FieldError Message="@ErrorFor(nameof(SavePostRequest.Content))" />
+            <FieldError Message="@ErrorFor(nameof(SavePostRequest.ContentFormat))" />
+
+            <Field Label="Summary" For="bk-summary">
+                <textarea id="bk-summary" class="nf-textarea bk-summary @Invalid(nameof(SavePostRequest.Summary))" @bind="model.Summary"
+                          maxlength="1000" rows="3" placeholder="Optional. Shown on lists and in feeds; the opening paragraph is used when this is empty."></textarea>
+                <FieldError Message="@ErrorFor(nameof(SavePostRequest.Summary))" />
+            </Field>
+        </div>
+
+        <aside class="bk-editor-side">
+            <section class="nf-panel">
+                <div class="nf-panel-header"><strong>Publishing</strong> <StateBadge State="@CurrentState" /></div>
+                <div class="nf-panel-body">
+                    <fieldset class="bk-radio-group">
+                        <legend class="nf-sr-only">Status</legend>
+                        <label class="nf-check">
+                            <input type="radio" name="bk-status" checked="@(model.Status == PostStatus.Draft)"
+                                   @onchange="() => model.Status = PostStatus.Draft" />
+                            Draft
+                        </label>
+                        <label class="nf-check">
+                            <input type="radio" name="bk-status" checked="@(model.Status == PostStatus.Published)"
+                                   @onchange="() => model.Status = PostStatus.Published" />
+                            Published
+                        </label>
+                    </fieldset>
+
+                    <Field Label="@($"Publish date ({time.ZoneName})")" For="bk-published">
+                        <input id="bk-published" class="nf-input" type="datetime-local" value="@publishLocal" @onchange="PublishDateChanged" />
+                        <p class="nf-hint">@PublishHint</p>
+                    </Field>
+
+                    <Field Label="Address" For="bk-slug">
+                        <input id="bk-slug" class="nf-input @Invalid(nameof(SavePostRequest.Slug))" @bind="model.Slug" @bind:event="oninput"
+                               maxlength="200" placeholder="Made from the title" />
+                        <p class="nf-hint bk-break">@AddressPreview</p>
+                        <FieldError Message="@ErrorFor(nameof(SavePostRequest.Slug))" />
+                    </Field>
+
+                    @if (saved is not null)
+                    {
+                        <a class="nf-button nf-button-block" href="@PreviewHref" target="_blank" rel="noopener noreferrer">
+                            <Icon Name="external" Size="16" /> @(saved.State == PostState.Published ? "View post" : "Preview")
+                        </a>
+                        <p class="nf-hint bk-preview-hint">Opens the last saved version in a new tab. @(saved.State == PostState.Published ? "Unsaved changes are not shown." : "Readers cannot see it until it is published.")</p>
+                    }
+                </div>
+            </section>
+
+            <section class="nf-panel">
+                <div class="nf-panel-header"><strong>Organise</strong></div>
+                <div class="nf-panel-body">
+                    <Field Label="Category" For="bk-category">
+                        <select id="bk-category" class="nf-select bk-full" @bind="model.CategoryId">
+                            <option value="">None</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                        <FieldError Message="@ErrorFor(nameof(SavePostRequest.CategoryId))" />
+                    </Field>
+
+                    <TagPicker TItem="TagChoice" Label="Tags" Id="bk-tags" Selected="@tags" NameOf="@(tag => tag.Name)"
+                               SearchAsync="SearchTagsAsync" OnAddAsync="AddTagAsync" />
+                    <FieldError Message="@ErrorFor(nameof(SavePostRequest.Tags))" />
+                </div>
+            </section>
+
+            <section class="nf-panel">
+                <div class="nf-panel-header"><strong>Cover image</strong></div>
+                <div class="nf-panel-body">
+                    <CoverImageField @bind-Url="model.CoverImageUrl" @bind-Alt="model.CoverImageAlt"
+                                     UrlError="@ErrorFor(nameof(SavePostRequest.CoverImageUrl))"
+                                     AltError="@ErrorFor(nameof(SavePostRequest.CoverImageAlt))" />
+                </div>
+            </section>
+
+            @if (!IsNew)
+            {
+                <button type="button" class="nf-button nf-button-danger nf-button-block" @onclick="DeleteAsync">
+                    <Icon Name="trash" Size="16" /> Delete post
+                </button>
+            }
+        </aside>
+    </div>
+
+    <Drawer Title="Details" Open="@showDetails" Scrim="true" Width="420px" OnClose="() => showDetails = false">
+        <ChildContent>
+            <h3 class="bk-drawer-heading">Search and sharing</h3>
+            <Field Label="Search title" For="bk-meta-title">
+                <input id="bk-meta-title" class="nf-input @Invalid(nameof(SavePostRequest.MetaTitle))" @bind="model.MetaTitle"
+                       maxlength="256" placeholder="@model.Title" />
+                <FieldError Message="@ErrorFor(nameof(SavePostRequest.MetaTitle))" />
+            </Field>
+            <Field Label="Search description" For="bk-meta-description">
+                <textarea id="bk-meta-description" class="nf-textarea @Invalid(nameof(SavePostRequest.MetaDescription))" @bind="model.MetaDescription"
+                          maxlength="320" rows="3" placeholder="Uses the summary when empty."></textarea>
+                <FieldError Message="@ErrorFor(nameof(SavePostRequest.MetaDescription))" />
+            </Field>
+            <Field Label="Canonical address" For="bk-canonical">
+                <input id="bk-canonical" class="nf-input @Invalid(nameof(SavePostRequest.CanonicalUrl))" @bind="model.CanonicalUrl"
+                       type="url" placeholder="https://… when this post first appeared elsewhere" />
+                <FieldError Message="@ErrorFor(nameof(SavePostRequest.CanonicalUrl))" />
+            </Field>
+
+            <h3 class="bk-drawer-heading">Display</h3>
+            <label class="nf-check">
+                <input type="checkbox" @bind="model.IsFeatured" />
+                Feature this post
+            </label>
+            @if (Options.Value.CommentsComponent is not null)
+            {
+                <label class="nf-check">
+                    <input type="checkbox" @bind="model.CommentsEnabled" />
+                    Allow comments
+                </label>
+            }
+
+            @if (saved is not null)
+            {
+                <h3 class="bk-drawer-heading">History</h3>
+                <dl class="nf-facts">
+                    <dt>Author</dt>
+                    <dd>@saved.AuthorName</dd>
+                    <dt>Created</dt>
+                    <dd>@FormatLocal(saved.CreatedAt)</dd>
+                    <dt>Updated</dt>
+                    <dd>@FormatLocal(saved.UpdatedAt)</dd>
+                </dl>
+            }
+        </ChildContent>
+    </Drawer>
+}

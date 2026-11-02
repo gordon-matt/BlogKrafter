@@ -1,0 +1,39 @@
+<PageTitle>Archive · @Options.Value.Title</PageTitle>
+
+<div class="bk-archive">
+    <header class="bk-list-header">
+        <p class="bk-eyebrow"><a href="@Urls.Index()">@Options.Value.Title</a></p>
+        <h1 class="bk-list-title">Archive</h1>
+    </header>
+
+    @if (years is null && loadError is null)
+    {
+        <p class="nf-muted">Loading the archive…</p>
+    }
+    else if (loadError is not null)
+    {
+        <EmptyState Icon="alert" Title="The archive could not be loaded" Description="@loadError" />
+    }
+    else if (years!.Count == 0)
+    {
+        <EmptyState Icon="archive" Title="Nothing here yet" Description="Published posts are listed here by year." />
+    }
+    else
+    {
+        @foreach (var year in years)
+        {
+            <section class="bk-archive-year" aria-labelledby="@($"bk-year-{year.Year}")">
+                <h2 id="@($"bk-year-{year.Year}")">@year.Year <span class="nf-muted nf-small">@year.Posts.Count</span></h2>
+                <ul class="bk-archive-list">
+                    @foreach (var entry in year.Posts)
+                    {
+                        <li>
+                            <time datetime="@entry.PublishedAt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)">@entry.PublishedAt.ToString("MMM d", CultureInfo.CurrentCulture)</time>
+                            <a href="@Urls.Post(entry.Slug)">@entry.Title</a>
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
+    }
+</div>

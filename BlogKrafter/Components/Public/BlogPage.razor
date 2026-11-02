@@ -1,0 +1,10 @@
+@page "/blog"
+@page "/blog/{Slug}"
+@page "/blog/tag/{Tag}"
+@page "/blog/category/{Category}"
+@layout BlogPublicLayout
+
+@if (isDefaultPath)
+{
+    <BlogView Slug="@Slug" Tag="@Tag" Category="@Category" />
+}

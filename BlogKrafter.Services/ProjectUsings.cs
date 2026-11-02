@@ -1,0 +1,16 @@
+global using System.Linq.Expressions;
+global using Ardalis.Result;
+global using BlogKrafter.Content;
+global using BlogKrafter.Data;
+global using BlogKrafter.Data.Entities;
+global using BlogKrafter.Models;
+global using BlogKrafter.Posts;
+global using BlogKrafter.Routing;
+global using BlogKrafter.Tenancy;
+global using Extenso.Data.Entity;
+global using Heroicsoft.NetForge.Abstractions.Auth;
+global using Heroicsoft.NetForge.Results;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;

@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="BlogKrafter.Data/BlogKrafter.Data.csproj" />
+  <Project Path="BlogKrafter.Data.MySql/BlogKrafter.Data.MySql.csproj" />
+  <Project Path="BlogKrafter.Data.Npgsql/BlogKrafter.Data.Npgsql.csproj" />
+  <Project Path="BlogKrafter.Data.Sql/BlogKrafter.Data.Sql.csproj" />
+  <Project Path="BlogKrafter.Data.Sqlite/BlogKrafter.Data.Sqlite.csproj" />
+  <Project Path="BlogKrafter.Services/BlogKrafter.Services.csproj" />
+  <Project Path="BlogKrafter/BlogKrafter.csproj" />
+  <Project Path="BlogKrafter.Demo/BlogKrafter.Demo.csproj" />
+  <Project Path="BlogKrafter.Tests/BlogKrafter.Tests.csproj" />
+</Solution>

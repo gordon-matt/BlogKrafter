@@ -1,0 +1,24 @@
+@rendermode BlogRenderModes.Editor
+
+<div class="bk-admin">
+    <AdminNav Current="@CurrentSection" />
+
+    @switch (CurrentSection)
+    {
+        case AdminSection.Posts when Id is null:
+            <PostsScreen />
+            break;
+        case AdminSection.Posts:
+            <PostEditor @key="Id" PostId="@PostId" />
+            break;
+        case AdminSection.Categories:
+            <CategoriesScreen />
+            break;
+        case AdminSection.Tags:
+            <TagsScreen />
+            break;
+        default:
+            <EmptyState Icon="signpost" Title="There is no such page" Description="Choose posts, categories or tags above." />
+            break;
+    }
+</div>

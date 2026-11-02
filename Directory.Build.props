@@ -1,0 +1,17 @@
+<Project>
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<Version>1.0.0</Version>
+		<Authors>Matt Gordon</Authors>
+		<Company>Matt Gordon</Company>
+		<Product>BlogKrafter</Product>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>blog;blazor;razor-class-library;markdown;cms</PackageTags>
+		<RepositoryUrl>https://github.com/gordon-matt/BlogKrafter</RepositoryUrl>
+	</PropertyGroup>
+
+</Project>

@@ -1,0 +1,47 @@
+<div class="bk-markdown">
+    <div class="bk-markdown-toolbar" role="toolbar" aria-label="Formatting">
+        <div class="bk-markdown-tabs" role="tablist">
+            <button type="button" role="tab" class="bk-tab @(previewing ? null : "is-active")" aria-selected="@(!previewing)" @onclick="() => previewing = false">Write</button>
+            <button type="button" role="tab" class="bk-tab @(previewing ? "is-active" : null)" aria-selected="@previewing" @onclick="ShowPreview">Preview</button>
+        </div>
+
+        @if (!previewing)
+        {
+            <div class="bk-markdown-tools">
+                <button type="button" class="nf-icon-button" title="Heading" aria-label="Heading" @onclick="@(() => PrefixAsync("## "))"><strong>H</strong></button>
+                <button type="button" class="nf-icon-button" title="Bold" aria-label="Bold" @onclick="@(() => WrapAsync("**", "**", "bold text"))"><strong>B</strong></button>
+                <button type="button" class="nf-icon-button" title="Italic" aria-label="Italic" @onclick="@(() => WrapAsync("_", "_", "italic text"))"><em>I</em></button>
+                <button type="button" class="nf-icon-button" title="Link" aria-label="Link" @onclick="@(() => WrapAsync("[", "](https://)", "link text"))"><Icon Name="link" Size="16" /></button>
+                <button type="button" class="nf-icon-button" title="Quote" aria-label="Quote" @onclick="@(() => PrefixAsync("> "))"><span aria-hidden="true">❝</span></button>
+                <button type="button" class="nf-icon-button" title="List" aria-label="List" @onclick="@(() => PrefixAsync("- "))"><Icon Name="menu" Size="16" /></button>
+                <button type="button" class="nf-icon-button" title="Code" aria-label="Code" @onclick="@(() => WrapAsync("`", "`", "code"))"><Icon Name="code" Size="16" /></button>
+                @if (Capabilities.HasFileManager)
+                {
+                    <button type="button" class="nf-icon-button" title="Insert image" aria-label="Insert image" @onclick="PickImageAsync"><Icon Name="layout" Size="16" /></button>
+                }
+            </div>
+        }
+    </div>
+
+    @if (previewing)
+    {
+        @if (string.IsNullOrWhiteSpace(Value))
+        {
+            <p class="nf-muted bk-markdown-preview">Nothing to preview yet.</p>
+        }
+        else
+        {
+            <div class="bk-prose bk-markdown-preview">@((MarkupString)previewHtml)</div>
+        }
+    }
+    else
+    {
+        <textarea @ref="textarea" class="nf-textarea nf-textarea-code bk-markdown-input" aria-label="Content (Markdown)"
+                  value="@Value" @onchange="ChangedAsync" rows="22"
+                  placeholder="Write in Markdown: ## for headings, **bold**, _italic_, [links](https://…), and blank lines between paragraphs."></textarea>
+    }
+    @if (pickError is not null)
+    {
+        <p class="nf-validation">@pickError</p>
+    }
+</div>
