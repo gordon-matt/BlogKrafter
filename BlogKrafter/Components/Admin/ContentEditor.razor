@@ -30,7 +30,7 @@
 
     @if (Format == ContentFormat.Html && Capabilities.HasRichTextEditor)
     {
-        <PickstackEditor @key="editorGeneration" Value="@Content" ValueChanged="ContentChanged" Height="520" FileRoot="@Options.Value.FileRoot" />
+        <PickstackEditor @key="editorGeneration" Value="@Content" ValueChanged="ContentChanged" Height="520" FileRoot="@FileRoots.GetFileRoot()" />
     }
     else if (Format == ContentFormat.Html)
     {

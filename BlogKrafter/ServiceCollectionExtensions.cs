@@ -32,6 +32,7 @@ public static class ServiceCollectionExtensions
             // authentication manages sign-in itself, so the shell shows no sign-in menu of its own.
             services.TryAddSingleton<IAuthProviderService>(new AuthProviderService(AuthProvider.None, null));
             services.TryAddScoped<IUserContextService, ClaimsUserContextService>();
+            services.TryAddScoped<IBlogFileRootProvider, DefaultFileRootProvider>();
             services.TryAddSingleton<EditorCapabilities>();
             services.TryAddScoped<BlogScript>();
 

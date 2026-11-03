@@ -8,6 +8,7 @@ global using BlogKrafter.Posts;
 global using BlogKrafter.Routing;
 global using BlogKrafter.Tenancy;
 global using Extenso.Data.Entity;
+global using LinqKit;
 global using Heroicsoft.NetForge.Abstractions.Auth;
 global using Heroicsoft.NetForge.Results;
 global using Microsoft.EntityFrameworkCore;

@@ -25,9 +25,6 @@ public partial class MarkdownEditor : IDisposable
     private EditorCapabilities Capabilities { get; set; } = default!;
 
     [Inject]
-    private IOptions<BlogKrafterOptions> Options { get; set; } = default!;
-
-    [Inject]
     private BlogScript Script { get; set; } = default!;
 
     private Task ChangedAsync(ChangeEventArgs args) => SetValueAsync(args.Value?.ToString() ?? string.Empty);
@@ -57,7 +54,7 @@ public partial class MarkdownEditor : IDisposable
 
         try
         {
-            await Script.PickFileAsync(selfReference, nameof(InsertImageAsync), "image", Options.Value.FileRoot);
+            await Script.PickFileAsync(selfReference, nameof(InsertImageAsync), "image");
         }
         catch (JSException)
         {

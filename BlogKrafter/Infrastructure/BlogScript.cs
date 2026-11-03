@@ -3,15 +3,15 @@ using Microsoft.JSInterop;
 namespace BlogKrafter.Infrastructure;
 
 /// <summary>The editor's browser helpers in <c>blogkrafter.js</c>, imported once per circuit.</summary>
-internal sealed class BlogScript(IJSRuntime js) : IAsyncDisposable
+internal sealed class BlogScript(IJSRuntime js, IBlogFileRootProvider fileRoots) : IAsyncDisposable
 {
     private const string ModulePath = "./_content/BlogKrafter/blogkrafter.js";
 
     private Task<IJSObjectReference>? module;
 
-    public async Task PickFileAsync<T>(DotNetObjectReference<T> receiver, string method, string type, string? root)
+    public async Task PickFileAsync<T>(DotNetObjectReference<T> receiver, string method, string type)
         where T : class =>
-        await (await ModuleAsync()).InvokeVoidAsync("pickFile", receiver, method, type, root ?? string.Empty);
+        await (await ModuleAsync()).InvokeVoidAsync("pickFile", receiver, method, type, fileRoots.GetFileRoot() ?? string.Empty);
 
     public async Task<string> WrapSelectionAsync(ElementReference textarea, string before, string after, string placeholder) =>
         await (await ModuleAsync()).InvokeAsync<string>("wrapSelection", textarea, before, after, placeholder);

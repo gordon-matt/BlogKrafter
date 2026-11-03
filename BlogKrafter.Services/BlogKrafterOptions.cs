@@ -60,12 +60,6 @@ public sealed class BlogKrafterOptions
     public string? TimeZone { get; set; }
 
     /// <summary>
-    /// Folder under the Pickstack upload directory that the file picker opens, such as <c>blog</c>.
-    /// Empty opens the whole upload directory.
-    /// </summary>
-    public string? FileRoot { get; set; }
-
-    /// <summary>
     /// Roles allowed into the editor screens. Empty lets any signed-in user in. Ignored when the host
     /// registers its own policy named <c>BlogKrafter.Manage</c>.
     /// </summary>

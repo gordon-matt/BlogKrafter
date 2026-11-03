@@ -32,9 +32,6 @@ public partial class CoverImageField : IDisposable
     private EditorCapabilities Capabilities { get; set; } = default!;
 
     [Inject]
-    private IOptions<BlogKrafterOptions> Options { get; set; } = default!;
-
-    [Inject]
     private BlogScript Script { get; set; } = default!;
 
     private async Task BrowseAsync()
@@ -44,7 +41,7 @@ public partial class CoverImageField : IDisposable
 
         try
         {
-            await Script.PickFileAsync(selfReference, nameof(ImageChosenAsync), "image", Options.Value.FileRoot);
+            await Script.PickFileAsync(selfReference, nameof(ImageChosenAsync), "image");
         }
         catch (JSException)
         {

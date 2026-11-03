@@ -31,7 +31,7 @@ public partial class ContentEditor
     private IBlogContentRenderer Renderer { get; set; } = default!;
 
     [Inject]
-    private IOptions<BlogKrafterOptions> Options { get; set; } = default!;
+    private IBlogFileRootProvider FileRoots { get; set; } = default!;
 
     [Inject]
     private DialogService Dialogs { get; set; } = default!;

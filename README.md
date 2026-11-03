@@ -131,7 +131,7 @@ app.MapControllers();
 ```
 
 - With a rich text editor, authors choose Markdown or rich text for each post. `EditorMode` can limit them to one. Switching a post from Markdown to rich text converts it. Switching back keeps the formatted text as HTML inside the Markdown, so the post looks the same. Either way, the editor asks first.
-- With a file manager, the cover image gets a Browse button and the Markdown toolbar an Insert image button. `FileRoot` opens the picker in a folder of its own, such as `blog`.
+- With a file manager, the cover image gets a Browse button and the Markdown toolbar an Insert image button. The picker opens wherever the host configured that file manager. BlogKrafter does not choose a folder of its own. A site that keeps each tenant's or author's uploads in separate folders registers an `IBlogFileRootProvider` (scoped is fine) whose `GetFileRoot()` returns that folder under the upload directory, such as `site-3`. Register it before calling `AddBlogKrafter`.
 - The WebFilez file browser is an MVC page shown in a frame. It needs `AddControllersWithViews()`, `MapControllers()`, and `<RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>` in the site's project file.
 
 ## Showing posts elsewhere
@@ -177,7 +177,6 @@ Bind from the `BlogKrafter` configuration section or set them in code.
 | `WordsPerMinute` | `220` | Used for reading time. |
 | `EditorMode` | `Both` | `Markdown`, `RichText` or `Both`. |
 | `DefaultContentFormat` | `Markdown` | The format a new post starts in when both are allowed. |
-| `FileRoot` | | Folder the file picker opens. |
 | `ManagerRoles` | `Administrator` | Roles allowed into the editor. |
 | `AllowedFrameHosts` | YouTube, Vimeo | Hosts allowed in embedded frames. |
 | `AutoMigrate` | `true` | Apply migrations at startup. |
@@ -190,8 +189,7 @@ Bind from the `BlogKrafter` configuration section or set them in code.
     "Title": "Field Notes",
     "Description": "Short essays on building small, durable software.",
     "SiteUrl": "https://example.com",
-    "TimeZone": "Europe/London",
-    "FileRoot": "blog"
+    "TimeZone": "Europe/London"
   }
 }
 ```

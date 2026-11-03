@@ -15,8 +15,9 @@ function whenPickstackReady(timeoutMs) {
     });
 }
 
-// Opens the site's file manager. The choice comes back through the .NET callback, because closing
-// the dialog without choosing never answers and an awaited call would wait for ever.
+// Opens the file manager the host registered, on the folder the host chose (empty for its upload folder).
+// The choice comes back through the .NET callback, because closing the dialog without choosing
+// never answers and an awaited call would wait for ever.
 export async function pickFile(dotnet, method, type, root) {
     const files = await whenPickstackReady(5000);
     files.open({
