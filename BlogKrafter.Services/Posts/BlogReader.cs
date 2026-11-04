@@ -65,7 +65,7 @@ public sealed class BlogReader(
         string normalized = (slug ?? string.Empty).Trim().ToLowerInvariant();
 
         var filter = preview
-            ? (Expression<Func<BlogPost, bool>>)(post => post.TenantId == tenantId)
+            ? (post => post.TenantId == tenantId)
             : PostQueries.Visible(tenantId, now);
 
         var post = await posts.FindOneAsync(new SearchOptions<BlogPost>

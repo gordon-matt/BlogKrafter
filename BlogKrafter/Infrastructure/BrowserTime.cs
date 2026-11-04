@@ -12,15 +12,9 @@ internal sealed class BrowserTime(TimeZoneInfo zone)
 
     public string ZoneName => IsUtc ? "UTC" : zone.Id;
 
-    public static BrowserTime From(string? ianaId)
-    {
-        if (!string.IsNullOrWhiteSpace(ianaId) && TimeZoneInfo.TryFindSystemTimeZoneById(ianaId, out var zone))
-        {
-            return new BrowserTime(zone);
-        }
-
-        return Utc;
-    }
+    public static BrowserTime From(string? ianaId) => !string.IsNullOrWhiteSpace(ianaId) && TimeZoneInfo.TryFindSystemTimeZoneById(ianaId, out var zone)
+            ? new BrowserTime(zone)
+            : Utc;
 
     public DateTime ToLocal(DateTime utc) =>
         TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(utc, DateTimeKind.Utc), zone);

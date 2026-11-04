@@ -66,17 +66,11 @@ public partial class PostList
         loadError = found.IsSuccess ? null : found.GetDisplayMessage();
     }
 
-    private string PageHref(int page)
-    {
-        if (!string.IsNullOrWhiteSpace(TagSlug))
-        {
-            return Urls.Tag(TagSlug, page);
-        }
-
-        return !string.IsNullOrWhiteSpace(CategorySlug)
+    private string PageHref(int page) => !string.IsNullOrWhiteSpace(TagSlug)
+            ? Urls.Tag(TagSlug, page)
+            : !string.IsNullOrWhiteSpace(CategorySlug)
             ? Urls.Category(CategorySlug, page)
             : Urls.Index(page, Search);
-    }
 
     private static string PostCountText(int count) => count == 1 ? "1 post" : $"{count:N0} posts";
 }

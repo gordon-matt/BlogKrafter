@@ -1,8 +1,14 @@
 <nav class="bk-admin-nav" aria-label="Blog editor">
-    <div class="nf-chip-row">
-        <Chip Href="@Urls.Admin()" Selected="@(Current == AdminSection.Posts)">Posts</Chip>
-        <Chip Href="@Urls.AdminCategories()" Selected="@(Current == AdminSection.Categories)">Categories</Chip>
-        <Chip Href="@Urls.AdminTags()" Selected="@(Current == AdminSection.Tags)">Tags</Chip>
+    <div class="bk-admin-nav-links">
+        <a class="@ButtonClass(AdminSection.Posts)" href="@Urls.Admin()" aria-current="@AriaCurrent(AdminSection.Posts)">
+            <Icon Name="journal-text" Size="16" /> Posts
+        </a>
+        <a class="@ButtonClass(AdminSection.Categories)" href="@Urls.AdminCategories()" aria-current="@AriaCurrent(AdminSection.Categories)">
+            <Icon Name="archive" Size="16" /> Categories
+        </a>
+        <a class="@ButtonClass(AdminSection.Tags)" href="@Urls.AdminTags()" aria-current="@AriaCurrent(AdminSection.Tags)">
+            <Icon Name="tag" Size="16" /> Tags
+        </a>
     </div>
     <a class="nf-link-button" href="@Urls.Index()" target="_blank" rel="noopener noreferrer">
         View blog <Icon Name="external" Size="14" />

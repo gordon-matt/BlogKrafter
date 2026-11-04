@@ -9,10 +9,7 @@ public class SlugsTests
     [InlineData("C# 14 & .NET 10", "c-14-net-10")]
     [InlineData("---", "")]
     [InlineData(null, "")]
-    public void Generate_folds_text_into_a_url_safe_slug(string? text, string expected)
-    {
-        Assert.Equal(expected, Slugs.Generate(text));
-    }
+    public void Generate_folds_text_into_a_url_safe_slug(string? text, string expected) => Assert.Equal(expected, Slugs.Generate(text));
 
     [Fact]
     public void Generate_cuts_long_text_without_a_trailing_hyphen()

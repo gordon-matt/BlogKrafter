@@ -42,17 +42,11 @@ public class BlogUrlsTests
     [InlineData("/", "")]
     [InlineData(null, "/blog")]
     [InlineData("  ", "/blog")]
-    public void NormalizePath_adds_a_leading_slash_and_drops_the_trailing_one(string? path, string expected)
-    {
-        Assert.Equal(expected, BlogUrls.NormalizePath(path, "/blog"));
-    }
+    public void NormalizePath_adds_a_leading_slash_and_drops_the_trailing_one(string? path, string expected) => Assert.Equal(expected, BlogUrls.NormalizePath(path, "/blog"));
 
     [Theory]
     [InlineData("https://example.com", "/blog/a", "https://example.com/blog/a")]
     [InlineData("https://example.com/site/", "/blog/a", "https://example.com/site/blog/a")]
     [InlineData("https://example.com", "https://cdn.example.com/a.png", "https://cdn.example.com/a.png")]
-    public void Absolute_joins_the_site_address_to_a_path(string siteUrl, string path, string expected)
-    {
-        Assert.Equal(expected, BlogUrls.Absolute(siteUrl, path));
-    }
+    public void Absolute_joins_the_site_address_to_a_path(string siteUrl, string path, string expected) => Assert.Equal(expected, BlogUrls.Absolute(siteUrl, path));
 }

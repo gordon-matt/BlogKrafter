@@ -1,11 +1,14 @@
 .site { min-height: 100vh; display: flex; flex-direction: column; background: var(--nf-bg); color: var(--nf-text); }
 .site-container { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
-.site-header { background: var(--nf-surface); border-bottom: 1px solid var(--nf-border); }
+.site-header { background: #000; border-bottom: 0; }
 .site-header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 60px; }
-.site-brand { color: var(--nf-text); font-size: 1.15rem; font-weight: 700; text-decoration: none; }
+.site-brand { display: flex; align-items: center; text-decoration: none; }
+.site-brand img { display: block; height: 40px; width: auto; }
 .site-nav { display: flex; align-items: center; gap: 1.1rem; }
-.site-nav a { color: var(--nf-muted); text-decoration: none; }
-.site-nav a:hover, .site-nav a.active { color: var(--nf-text); }
+.site-nav a { color: #d1d5db; text-decoration: none; }
+.site-nav a:hover, .site-nav a.active { color: #fff; }
+.site-header .nf-theme-toggle { color: #d1d5db; }
+.site-header .nf-theme-toggle:hover { color: #fff; background: #374151; }
 .site-main { flex: 1; padding-block: 2rem 4rem; }
 .site-footer { padding: 1.25rem 0; border-top: 1px solid var(--nf-border); color: var(--nf-muted); font-size: 13px; }
 

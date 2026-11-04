@@ -220,6 +220,7 @@
 /* ---------- Editor ---------- */
 
 .bk-admin { color: var(--bk-text); }
+.bk-admin-nav-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .bk-admin-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.1rem; }
 .bk-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 1rem; }
 .bk-toolbar-search { width: min(320px, 100%); }

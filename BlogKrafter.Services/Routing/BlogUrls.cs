@@ -55,25 +55,14 @@ public sealed class BlogUrls(IOptions<BlogKrafterOptions> options)
     public string AdminTags() => $"{AdminPath}/tags";
 
     /// <summary>Joins <paramref name="siteUrl"/> (scheme, host and any path base) to a root-relative path.</summary>
-    public static string Absolute(string siteUrl, string path)
-    {
-        if (Uri.TryCreate(path, UriKind.Absolute, out var absolute) && absolute.Scheme is "http" or "https")
-        {
-            return path;
-        }
-
-        return siteUrl.TrimEnd('/') + "/" + path.TrimStart('/');
-    }
+    public static string Absolute(string siteUrl, string path) => Uri.TryCreate(path, UriKind.Absolute, out var absolute) && absolute.Scheme is "http" or "https"
+            ? path
+            : siteUrl.TrimEnd('/') + "/" + path.TrimStart('/');
 
     internal static string NormalizePath(string? path, string fallback)
     {
         string trimmed = (path ?? string.Empty).Trim().Trim('/');
-        if (trimmed.Length == 0)
-        {
-            return string.IsNullOrWhiteSpace(path) ? fallback : string.Empty;
-        }
-
-        return "/" + trimmed;
+        return trimmed.Length == 0 ? string.IsNullOrWhiteSpace(path) ? fallback : string.Empty : "/" + trimmed;
     }
 
     private static string WithQuery(string path, int page, string? search)

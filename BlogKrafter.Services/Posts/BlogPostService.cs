@@ -25,7 +25,7 @@ public sealed class BlogPostService(
         int page = Math.Max(1, query.Page);
         int pageSize = Math.Clamp(query.PageSize, 1, 200);
 
-        Expression<Func<BlogPost, bool>> filter = query.Filter switch
+        var filter = query.Filter switch
         {
             PostFilter.Drafts => post => post.TenantId == tenantId && post.Status == PostStatus.Draft,
             PostFilter.Scheduled => post => post.TenantId == tenantId && post.Status == PostStatus.Published
@@ -404,15 +404,7 @@ public sealed class BlogPostService(
             : Result<ValidatedPost>.Success(new ValidatedPost(title, slug, summary, coverImageUrl, canonicalUrl, tagList));
     }
 
-    private static bool IsSafeUrl(string url, bool allowRelative)
-    {
-        if (allowRelative && url.StartsWith('/') && !url.StartsWith("//", StringComparison.Ordinal))
-        {
-            return true;
-        }
-
-        return Uri.TryCreate(url, UriKind.Absolute, out var absolute) && absolute.Scheme is "http" or "https";
-    }
+    private static bool IsSafeUrl(string url, bool allowRelative) => (allowRelative && url.StartsWith('/') && !url.StartsWith("//", StringComparison.Ordinal)) || (Uri.TryCreate(url, UriKind.Absolute, out var absolute) && absolute.Scheme is "http" or "https");
 
     private static void AddLengthError(List<ValidationError> errors, string field, string? value, int max, string label)
     {

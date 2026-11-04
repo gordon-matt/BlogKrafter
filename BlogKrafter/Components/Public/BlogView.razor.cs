@@ -39,11 +39,9 @@ public partial class BlogView
 
     private bool IsArchive => string.Equals(Slug, "archive", StringComparison.OrdinalIgnoreCase);
 
-    protected override async Task OnParametersSetAsync()
-    {
+    protected override async Task OnParametersSetAsync() =>
         // Drafts and scheduled posts are for the people who can edit them; anyone else gets the live post or a 404.
         preview = PreviewRequested == true && await CanManageAsync();
-    }
 
     private async Task<bool> CanManageAsync()
     {

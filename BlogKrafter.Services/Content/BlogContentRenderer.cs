@@ -47,17 +47,11 @@ public sealed class BlogContentRenderer(IBlogHtmlSanitizer sanitizer, IOptions<B
         return new RenderedContent(body.InnerHtml, CreateExcerpt(body), words, headings);
     }
 
-    public IReadOnlyList<TocEntry> ReadHeadings(string html)
-    {
-        if (string.IsNullOrWhiteSpace(html))
-        {
-            return [];
-        }
-
-        return [.. Parse(html).QuerySelectorAll("h2[id], h3[id]")
+    public IReadOnlyList<TocEntry> ReadHeadings(string html) => string.IsNullOrWhiteSpace(html)
+            ? []
+            : [.. Parse(html).QuerySelectorAll("h2[id], h3[id]")
             .Select(heading => new TocEntry(heading.Id!, NormalizeWhitespace(heading.TextContent), heading.LocalName == "h2" ? 2 : 3))
             .Where(entry => entry.Text.Length > 0)];
-    }
 
     /// <summary>Shortens plain text to about <paramref name="length"/> characters, ending on a word.</summary>
     public static string Truncate(string text, int length = ExcerptLength)
