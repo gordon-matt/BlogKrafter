@@ -9,6 +9,14 @@ A blog for any ASP.NET Core site, built with Blazor on .NET 10. Add a package, c
 - Stored HTML is sanitized on save. Embedded frames are kept only for hosts you allow.
 - SQL Server, PostgreSQL, MySQL or SQLite.
 
+## Screenshots
+
+<img src="https://github.com/gordon-matt/BlogKrafter/blob/master/_Misc/Screenshots/Posts_Light.png" alt="Posts - Light" />
+
+<img src="https://github.com/gordon-matt/BlogKrafter/blob/master/_Misc/Screenshots/Posts_Dark.png" alt="Posts - Dark" />
+
+<img src="https://github.com/gordon-matt/BlogKrafter/blob/master/_Misc/Screenshots/Post_Edit.png" alt="Post - Edit" />
+
 ## Packages
 
 | Package | What it is |
