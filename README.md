@@ -1,4 +1,4 @@
-# BlogKrafter
+<img src="https://github.com/gordon-matt/BlogKrafter/blob/master/_Misc/Logo.png" alt="Logo" width="350" />
 
 A blog for any ASP.NET Core site, built with Blazor on .NET 10. Add a package, call two methods, and the site gets public blog pages, RSS and Atom feeds, a sitemap, and editor screens for posts, categories and tags.
 
