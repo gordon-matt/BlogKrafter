@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<Description>A drop-in Blazor blog for ASP.NET Core sites: public pages, feeds and an editor with Markdown or a rich text editor.</Description>
+		<PackageTags>blog;blogging;blazor;razor-class-library;aspnetcore;markdown;rss;atom;sitemap;seo;cms;netforge</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -9,8 +10,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Heroicsoft.NetForge.Components" Version="1.2.2" />
-		<PackageReference Include="Pickstack" Version="1.0.2" />
+		<PackageReference Include="Heroicsoft.NetForge.Components" Version="1.2.3" />
+		<PackageReference Include="Pickstack" Version="1.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>

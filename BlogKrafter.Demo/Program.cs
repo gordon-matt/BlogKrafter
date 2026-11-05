@@ -8,7 +8,7 @@ using Heroicsoft.NetForge.Components.Layout;
 using Microsoft.AspNetCore.Authentication;
 using Pickstack;
 using Pickstack.FileManager.WebFilez;
-using Pickstack.RichTextEditor.TinyMce7;
+using Pickstack.RichTextEditor.TinyMce8;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,8 @@ builder.Services.AddNetForgeComponents(ui =>
     ui.AccentColorDark = "#2dd4bf";
 });
 
+builder.Services.ConfigureNetForgeToastSounds(sounds => sounds.EnableSounds = true);
+
 builder.Services.Configure<ForgeShellOptions>(shell =>
 {
     shell.Brand = "BlogKrafter demo";
@@ -44,7 +46,7 @@ builder.Services.BuildMenu(menu => menu
 builder.Services.AddControllersWithViews();
 builder.Services.AddPickstack(builder.Configuration)
     .AddWebFilez(files => files.UseHostBlazor())
-    .AddTinyMce7(editor => editor
+    .AddTinyMce8(editor => editor
         .WithHeight(520)
         .WithToolbar("undo redo | blocks | bold italic | bullist numlist blockquote | link image media | code"));
 

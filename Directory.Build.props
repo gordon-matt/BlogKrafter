@@ -5,13 +5,23 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>Matt Gordon</Authors>
 		<Company>Matt Gordon</Company>
 		<Product>BlogKrafter</Product>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>blog;blazor;razor-class-library;markdown;cms</PackageTags>
+		<PackageIcon>Icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/gordon-matt/BlogKrafter</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/gordon-matt/BlogKrafter</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
+
+	<!-- Packed into every package. Projects that are not packed (demo, samples, tests) never use these. -->
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)_Misc\Icon.png" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Visible="false" />
+	</ItemGroup>
 
 </Project>

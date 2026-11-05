@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Pickstack.FileManager.WebFilez" Version="1.0.2" />
-		<PackageReference Include="Pickstack.RichTextEditor.TinyMce7" Version="1.0.2" />
+		<PackageReference Include="Pickstack.FileManager.WebFilez" Version="1.0.3" />
+		<PackageReference Include="Pickstack.RichTextEditor.TinyMce8" Version="1.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
