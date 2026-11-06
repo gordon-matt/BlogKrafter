@@ -5,6 +5,9 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Admin;
 
+/// <summary>
+/// Represents the tags screen.
+/// </summary>
 public partial class TagsScreen
 {
     private IReadOnlyList<TagDto>? tags;
@@ -25,6 +28,7 @@ public partial class TagsScreen
     [Inject]
     private ToastService Toasts { get; set; } = default!;
 
+    /// <inheritdoc/>
     protected override Task OnInitializedAsync() => LoadAsync();
 
     private async Task LoadAsync()

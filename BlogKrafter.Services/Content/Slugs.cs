@@ -3,6 +3,9 @@ using System.Text;
 
 namespace BlogKrafter.Content;
 
+/// <summary>
+/// Provides slugs.
+/// </summary>
 public static class Slugs
 {
     /// <summary>

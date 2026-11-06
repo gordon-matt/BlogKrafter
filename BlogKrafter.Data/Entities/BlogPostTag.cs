@@ -6,19 +6,41 @@ namespace BlogKrafter.Data.Entities;
 /// </summary>
 public class BlogPostTag : IEntity
 {
+    /// <summary>
+    /// Gets or sets the post identifier.
+    /// </summary>
     public int PostId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the tag identifier.
+    /// </summary>
     public int TagId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the post.
+    /// </summary>
     public BlogPost? Post { get; set; }
 
+    /// <summary>
+    /// Gets or sets the tag.
+    /// </summary>
     public BlogTag? Tag { get; set; }
 
+    /// <summary>
+    /// Gets the key values.
+    /// </summary>
     public object[] KeyValues => [PostId, TagId];
 }
 
+/// <summary>
+/// Represents the blog post tag map.
+/// </summary>
 public sealed class BlogPostTagMap : IEntityTypeConfiguration<BlogPostTag>
 {
+    /// <summary>
+    /// Configures the value.
+    /// </summary>
+    /// <param name="builder">The builder.</param>
     public void Configure(EntityTypeBuilder<BlogPostTag> builder)
     {
         builder.ToTable(Constants.Tables.PostTags);

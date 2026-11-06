@@ -12,9 +12,15 @@ public partial class MarkdownEditor : IDisposable
     private string? pickError;
     private DotNetObjectReference<MarkdownEditor>? selfReference;
 
+    /// <summary>
+    /// Gets or sets the value.
+    /// </summary>
     [Parameter]
     public string Value { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the value changed.
+    /// </summary>
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
@@ -62,6 +68,11 @@ public partial class MarkdownEditor : IDisposable
         }
     }
 
+    /// <summary>
+    /// Inserts the image.
+    /// </summary>
+    /// <param name="url">The URL.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable]
     public async Task InsertImageAsync(string? url)
     {
@@ -75,5 +86,8 @@ public partial class MarkdownEditor : IDisposable
         await InvokeAsync(() => SetValueAsync(value));
     }
 
+    /// <summary>
+    /// Releases the resources used by this instance.
+    /// </summary>
     public void Dispose() => selfReference?.Dispose();
 }

@@ -6,17 +6,36 @@ namespace BlogKrafter.Data.Entities;
 /// </summary>
 public class BlogSlugRedirect : BaseEntity<int>
 {
+    /// <summary>
+    /// Gets or sets the tenant identifier.
+    /// </summary>
     public string TenantId { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the slug.
+    /// </summary>
     public string Slug { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the post identifier.
+    /// </summary>
     public int PostId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the created at.
+    /// </summary>
     public DateTime CreatedAt { get; set; }
 }
 
+/// <summary>
+/// Represents the blog slug redirect map.
+/// </summary>
 public sealed class BlogSlugRedirectMap : IEntityTypeConfiguration<BlogSlugRedirect>
 {
+    /// <summary>
+    /// Configures the value.
+    /// </summary>
+    /// <param name="builder">The builder.</param>
     public void Configure(EntityTypeBuilder<BlogSlugRedirect> builder)
     {
         builder.ToTable(Constants.Tables.SlugRedirects);

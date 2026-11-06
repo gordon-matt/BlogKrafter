@@ -8,9 +8,15 @@ public partial class BlogAdminPage
 {
     private bool isDefaultPath;
 
+    /// <summary>
+    /// Gets or sets the section.
+    /// </summary>
     [Parameter]
     public string? Section { get; set; }
 
+    /// <summary>
+    /// Gets or sets the identifier.
+    /// </summary>
     [Parameter]
     public string? Id { get; set; }
 
@@ -20,6 +26,7 @@ public partial class BlogAdminPage
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         isDefaultPath = string.Equals(Urls.AdminPath, BlogKrafterOptions.DefaultAdminPath, StringComparison.OrdinalIgnoreCase);

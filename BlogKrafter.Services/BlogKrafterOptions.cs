@@ -5,10 +5,19 @@ namespace BlogKrafter;
 /// </summary>
 public sealed class BlogKrafterOptions
 {
+    /// <summary>
+    /// The section name constant.
+    /// </summary>
     public const string SectionName = "BlogKrafter";
 
+    /// <summary>
+    /// The default base path constant.
+    /// </summary>
     public const string DefaultBasePath = "/blog";
 
+    /// <summary>
+    /// The default admin path constant.
+    /// </summary>
     public const string DefaultAdminPath = "/admin/blog";
 
     /// <summary>
@@ -24,6 +33,9 @@ public sealed class BlogKrafterOptions
     /// <summary>The heading on the post list and the title of the feeds.</summary>
     public string Title { get; set; } = "Blog";
 
+    /// <summary>
+    /// Gets or sets the description.
+    /// </summary>
     public string? Description { get; set; }
 
     /// <summary>
@@ -32,10 +44,19 @@ public sealed class BlogKrafterOptions
     /// </summary>
     public string? SiteUrl { get; set; }
 
+    /// <summary>
+    /// Gets or sets the page size.
+    /// </summary>
     public int PageSize { get; set; } = 10;
 
+    /// <summary>
+    /// Gets or sets the feed item count.
+    /// </summary>
     public int FeedItemCount { get; set; } = 20;
 
+    /// <summary>
+    /// Gets or sets the related post count.
+    /// </summary>
     public int RelatedPostCount { get; set; } = 3;
 
     /// <summary>Which editors authors can choose from.</summary>
@@ -44,6 +65,9 @@ public sealed class BlogKrafterOptions
     /// <summary>The format a new post starts in when both are allowed.</summary>
     public ContentFormat DefaultContentFormat { get; set; } = ContentFormat.Markdown;
 
+    /// <summary>
+    /// Gets or sets the words per minute.
+    /// </summary>
     public int WordsPerMinute { get; set; } = 220;
 
     /// <summary>A post gets a table of contents when it has at least this many second- and third-level headings.</summary>
@@ -95,8 +119,14 @@ public sealed class BlogKrafterOptions
     public Type? CommentsComponent { get; set; }
 }
 
+/// <summary>
+/// Specifies the blog editor mode.
+/// </summary>
 public enum BlogEditorMode
 {
+    /// <summary>
+    /// The markdown value.
+    /// </summary>
     Markdown,
 
     /// <summary>Requires a Pickstack rich text editor to be registered.</summary>

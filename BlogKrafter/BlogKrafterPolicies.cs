@@ -1,5 +1,8 @@
 namespace BlogKrafter;
 
+/// <summary>
+/// Provides blog krafter policies.
+/// </summary>
 public static class BlogKrafterPolicies
 {
     /// <summary>

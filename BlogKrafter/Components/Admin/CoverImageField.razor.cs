@@ -10,21 +10,39 @@ public partial class CoverImageField : IDisposable
     private string? pickError;
     private DotNetObjectReference<CoverImageField>? selfReference;
 
+    /// <summary>
+    /// Gets or sets the URL.
+    /// </summary>
     [Parameter]
     public string? Url { get; set; }
 
+    /// <summary>
+    /// Gets or sets the URL changed.
+    /// </summary>
     [Parameter]
     public EventCallback<string?> UrlChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the alt.
+    /// </summary>
     [Parameter]
     public string? Alt { get; set; }
 
+    /// <summary>
+    /// Gets or sets the alt changed.
+    /// </summary>
     [Parameter]
     public EventCallback<string?> AltChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the URL error.
+    /// </summary>
     [Parameter]
     public string? UrlError { get; set; }
 
+    /// <summary>
+    /// Gets or sets the alt error.
+    /// </summary>
     [Parameter]
     public string? AltError { get; set; }
 
@@ -49,6 +67,11 @@ public partial class CoverImageField : IDisposable
         }
     }
 
+    /// <summary>
+    /// Performs the image chosen operation.
+    /// </summary>
+    /// <param name="url">The URL.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable]
     public async Task ImageChosenAsync(string? url)
     {
@@ -68,5 +91,8 @@ public partial class CoverImageField : IDisposable
         await AltChanged.InvokeAsync(null);
     }
 
+    /// <summary>
+    /// Releases the resources used by this instance.
+    /// </summary>
     public void Dispose() => selfReference?.Dispose();
 }

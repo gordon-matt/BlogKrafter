@@ -5,12 +5,18 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Public;
 
+/// <summary>
+/// Represents the post view.
+/// </summary>
 public partial class PostView
 {
     private PostDto? post;
     private string? loadError;
     private bool notFound;
 
+    /// <summary>
+    /// Gets or sets the slug.
+    /// </summary>
     [Parameter, EditorRequired]
     public string Slug { get; set; } = string.Empty;
 
@@ -74,6 +80,7 @@ public partial class PostView
         }
     }
 
+    /// <inheritdoc/>
     protected override async Task OnParametersSetAsync()
     {
         loadError = null;

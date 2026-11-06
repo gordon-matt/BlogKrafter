@@ -6,6 +6,12 @@ namespace BlogKrafter;
 /// </summary>
 public enum PostStatus
 {
+    /// <summary>
+    /// The draft value.
+    /// </summary>
     Draft = 0,
+    /// <summary>
+    /// The published value.
+    /// </summary>
     Published = 1,
 }

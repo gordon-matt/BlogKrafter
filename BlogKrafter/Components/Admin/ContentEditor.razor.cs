@@ -12,15 +12,27 @@ public partial class ContentEditor
 {
     private int editorGeneration;
 
+    /// <summary>
+    /// Gets or sets the format.
+    /// </summary>
     [Parameter]
     public ContentFormat Format { get; set; }
 
+    /// <summary>
+    /// Gets or sets the format changed.
+    /// </summary>
     [Parameter]
     public EventCallback<ContentFormat> FormatChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the content.
+    /// </summary>
     [Parameter]
     public string Content { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the content changed.
+    /// </summary>
     [Parameter]
     public EventCallback<string> ContentChanged { get; set; }
 

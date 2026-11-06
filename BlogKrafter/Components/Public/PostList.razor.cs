@@ -9,15 +9,27 @@ public partial class PostList
     private PostListResult? result;
     private string? loadError;
 
+    /// <summary>
+    /// Gets or sets the page.
+    /// </summary>
     [Parameter]
     public int Page { get; set; } = 1;
 
+    /// <summary>
+    /// Gets or sets the search.
+    /// </summary>
     [Parameter]
     public string? Search { get; set; }
 
+    /// <summary>
+    /// Gets or sets the tag slug.
+    /// </summary>
     [Parameter]
     public string? TagSlug { get; set; }
 
+    /// <summary>
+    /// Gets or sets the category slug.
+    /// </summary>
     [Parameter]
     public string? CategorySlug { get; set; }
 
@@ -44,6 +56,7 @@ public partial class PostList
         }
     }
 
+    /// <inheritdoc/>
     protected override async Task OnParametersSetAsync()
     {
         loadError = null;

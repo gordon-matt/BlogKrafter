@@ -10,6 +10,11 @@ public sealed class BlogTimeZone(IOptions<BlogKrafterOptions> options)
         ? TimeZoneInfo.Utc
         : TimeZoneInfo.FindSystemTimeZoneById(options.Value.TimeZone);
 
+    /// <summary>
+    /// Converts the value to the local.
+    /// </summary>
+    /// <param name="utc">The utc.</param>
+    /// <returns>The local.</returns>
     public DateTime ToLocal(DateTime utc) =>
         TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(utc, DateTimeKind.Utc), zone);
 }

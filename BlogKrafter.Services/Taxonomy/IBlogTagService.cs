@@ -15,5 +15,11 @@ public interface IBlogTagService
     /// </summary>
     Task<Result<TagDto>> RenameAsync(int id, string name, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Deletes the value.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the result.</returns>
     Task<Result> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

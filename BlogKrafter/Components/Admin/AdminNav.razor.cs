@@ -1,7 +1,13 @@
 namespace BlogKrafter.Components.Admin;
 
+/// <summary>
+/// Represents the admin nav.
+/// </summary>
 public partial class AdminNav
 {
+    /// <summary>
+    /// Gets or sets the current.
+    /// </summary>
     [Parameter]
     public AdminSection? Current { get; set; }
 

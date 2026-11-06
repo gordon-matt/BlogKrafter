@@ -1,12 +1,21 @@
 namespace BlogKrafter.Data.Entities;
 
+/// <summary>
+/// Represents the blog post.
+/// </summary>
 public class BlogPost : BaseEntity<int>
 {
     /// <summary>Empty for a single-site host. Not nullable, so the unique slug index behaves the same on every provider.</summary>
     public string TenantId { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the title.
+    /// </summary>
     public string Title { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the slug.
+    /// </summary>
     public string Slug { get; set; } = string.Empty;
 
     /// <summary>What the author typed as the summary. Null means <see cref="Excerpt"/> is taken from the body.</summary>
@@ -15,6 +24,9 @@ public class BlogPost : BaseEntity<int>
     /// <summary>The summary shown on lists and in feeds, worked out on save.</summary>
     public string Excerpt { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the content format.
+    /// </summary>
     public ContentFormat ContentFormat { get; set; }
 
     /// <summary>The source as written, in <see cref="ContentFormat"/>.</summary>
@@ -23,45 +35,97 @@ public class BlogPost : BaseEntity<int>
     /// <summary>Rendered and sanitized on save, so a page view never runs the Markdown pipeline.</summary>
     public string ContentHtml { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the cover image URL.
+    /// </summary>
     public string? CoverImageUrl { get; set; }
 
+    /// <summary>
+    /// Gets or sets the cover image alt.
+    /// </summary>
     public string? CoverImageAlt { get; set; }
 
+    /// <summary>
+    /// Gets or sets the meta title.
+    /// </summary>
     public string? MetaTitle { get; set; }
 
+    /// <summary>
+    /// Gets or sets the meta description.
+    /// </summary>
     public string? MetaDescription { get; set; }
 
+    /// <summary>
+    /// Gets or sets the canonical URL.
+    /// </summary>
     public string? CanonicalUrl { get; set; }
 
+    /// <summary>
+    /// Gets or sets the status.
+    /// </summary>
     public PostStatus Status { get; set; }
 
     /// <summary>UTC. Set when a post is first published; a future value schedules it.</summary>
     public DateTime? PublishedAt { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this instance is featured.
+    /// </summary>
     public bool IsFeatured { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this instance is comments enabled.
+    /// </summary>
     public bool CommentsEnabled { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the reading time minutes.
+    /// </summary>
     public int ReadingTimeMinutes { get; set; }
 
+    /// <summary>
+    /// Gets or sets the author user identifier.
+    /// </summary>
     public string AuthorUserId { get; set; } = string.Empty;
 
     /// <summary>Copied from the author on create, so a post keeps its byline if the account goes away.</summary>
     public string AuthorName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the created at.
+    /// </summary>
     public DateTime CreatedAt { get; set; }
 
+    /// <summary>
+    /// Gets or sets the updated at.
+    /// </summary>
     public DateTime UpdatedAt { get; set; }
 
+    /// <summary>
+    /// Gets or sets the category identifier.
+    /// </summary>
     public int? CategoryId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the category.
+    /// </summary>
     public BlogCategory? Category { get; set; }
 
+    /// <summary>
+    /// Gets or sets the tags.
+    /// </summary>
     public ICollection<BlogPostTag> Tags { get; set; } = [];
 }
 
+/// <summary>
+/// Represents the blog post map.
+/// </summary>
 public sealed class BlogPostMap : IEntityTypeConfiguration<BlogPost>
 {
+    /// <summary>
+    /// Configures the value.
+    /// </summary>
+    /// <param name="builder">The builder.</param>
     public void Configure(EntityTypeBuilder<BlogPost> builder)
     {
         builder.ToTable(Constants.Tables.Posts);

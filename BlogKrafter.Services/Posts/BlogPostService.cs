@@ -1,5 +1,8 @@
 namespace BlogKrafter.Posts;
 
+/// <summary>
+/// Represents the blog post service.
+/// </summary>
 public sealed class BlogPostService(
     ILogger<BlogPostService> logger,
     IUserContextService userContext,
@@ -13,6 +16,12 @@ public sealed class BlogPostService(
     IRepository<BlogSlugRedirect> redirects,
     TimeProvider time) : IBlogPostService
 {
+    /// <summary>
+    /// Lists the value.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the admin post row paged list.</returns>
     public async Task<Result<PagedList<AdminPostRow>>> ListAsync(AdminPostQuery query, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is null)
@@ -65,6 +74,12 @@ public sealed class BlogPostService(
         return Result<PagedList<AdminPostRow>>.Success(new PagedList<AdminPostRow>([.. found], page, pageSize, found.ItemCount));
     }
 
+    /// <summary>
+    /// Gets the value.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the post edit.</returns>
     public async Task<Result<PostEditDto>> GetAsync(int id, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is null)
@@ -85,6 +100,12 @@ public sealed class BlogPostService(
             : Result<PostEditDto>.Success(ToEditDto(post));
     }
 
+    /// <summary>
+    /// Saves the value.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the post edit.</returns>
     public async Task<Result<PostEditDto>> SaveAsync(SavePostRequest request, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is not string userId)
@@ -191,6 +212,12 @@ public sealed class BlogPostService(
         return await GetAsync(post.Id, cancellationToken);
     }
 
+    /// <summary>
+    /// Deletes the value.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the result.</returns>
     public async Task<Result> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is not string userId)

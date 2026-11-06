@@ -34,7 +34,16 @@ public partial class BlogAdminView
 /// <summary>The editor screens <see cref="BlogAdminView"/> can show.</summary>
 public enum AdminSection
 {
+    /// <summary>
+    /// The posts value.
+    /// </summary>
     Posts,
+    /// <summary>
+    /// The categories value.
+    /// </summary>
     Categories,
+    /// <summary>
+    /// The tags value.
+    /// </summary>
     Tags,
 }

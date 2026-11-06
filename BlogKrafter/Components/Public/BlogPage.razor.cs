@@ -8,12 +8,21 @@ public partial class BlogPage
 {
     private bool isDefaultPath;
 
+    /// <summary>
+    /// Gets or sets the slug.
+    /// </summary>
     [Parameter]
     public string? Slug { get; set; }
 
+    /// <summary>
+    /// Gets or sets the tag.
+    /// </summary>
     [Parameter]
     public string? Tag { get; set; }
 
+    /// <summary>
+    /// Gets or sets the category.
+    /// </summary>
     [Parameter]
     public string? Category { get; set; }
 
@@ -23,6 +32,7 @@ public partial class BlogPage
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         isDefaultPath = string.Equals(Urls.BasePath, BlogKrafterOptions.DefaultBasePath, StringComparison.OrdinalIgnoreCase);

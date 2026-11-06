@@ -6,6 +6,9 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Admin;
 
+/// <summary>
+/// Represents the posts screen.
+/// </summary>
 public partial class PostsScreen : IDisposable
 {
     private static readonly IReadOnlyList<(PostFilter Filter, string Label)> Filters =
@@ -45,8 +48,10 @@ public partial class PostsScreen : IDisposable
     [Inject]
     private ToastService Toasts { get; set; } = default!;
 
+    /// <inheritdoc/>
     protected override Task OnInitializedAsync() => LoadAsync();
 
+    /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
@@ -142,6 +147,9 @@ public partial class PostsScreen : IDisposable
     private string FormatDate(DateTime? utc) =>
         utc is DateTime value ? time.ToLocal(value).ToString("d MMM yyyy", CultureInfo.CurrentCulture) : "—";
 
+    /// <summary>
+    /// Releases the resources used by this instance.
+    /// </summary>
     public void Dispose()
     {
         searchDelay?.Cancel();

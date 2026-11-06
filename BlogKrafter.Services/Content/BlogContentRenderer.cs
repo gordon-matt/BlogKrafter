@@ -12,12 +12,21 @@ public sealed record RenderedContent(string Html, string Excerpt, int WordCount,
 /// <summary>Turns a post's source into the HTML readers get. Register another implementation to change the pipeline.</summary>
 public interface IBlogContentRenderer
 {
+    /// <summary>
+    /// Renders the value.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    /// <param name="format">The format.</param>
+    /// <returns>The rendered content.</returns>
     RenderedContent Render(string? source, ContentFormat format);
 
     /// <summary>Reads the table of contents back out of HTML this renderer produced.</summary>
     IReadOnlyList<TocEntry> ReadHeadings(string html);
 }
 
+/// <summary>
+/// Represents the blog content renderer.
+/// </summary>
 public sealed class BlogContentRenderer(IBlogHtmlSanitizer sanitizer, IOptions<BlogKrafterOptions> options) : IBlogContentRenderer
 {
     private const int ExcerptLength = 280;
@@ -26,6 +35,12 @@ public sealed class BlogContentRenderer(IBlogHtmlSanitizer sanitizer, IOptions<B
         .UseAdvancedExtensions()
         .Build();
 
+    /// <summary>
+    /// Renders the value.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    /// <param name="format">The format.</param>
+    /// <returns>The rendered content.</returns>
     public RenderedContent Render(string? source, ContentFormat format)
     {
         if (string.IsNullOrWhiteSpace(source))
@@ -47,6 +62,11 @@ public sealed class BlogContentRenderer(IBlogHtmlSanitizer sanitizer, IOptions<B
         return new RenderedContent(body.InnerHtml, CreateExcerpt(body), words, headings);
     }
 
+    /// <summary>
+    /// Reads the headings.
+    /// </summary>
+    /// <param name="html">The HTML.</param>
+    /// <returns>The headings.</returns>
     public IReadOnlyList<TocEntry> ReadHeadings(string html) => string.IsNullOrWhiteSpace(html)
             ? []
             : [.. Parse(html).QuerySelectorAll("h2[id], h3[id]")

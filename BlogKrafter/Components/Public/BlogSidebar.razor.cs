@@ -10,12 +10,21 @@ public partial class BlogSidebar
     private IReadOnlyList<CategoryDto> categories = [];
     private IReadOnlyList<TagDto> tags = [];
 
+    /// <summary>
+    /// Gets or sets the search.
+    /// </summary>
     [Parameter]
     public string? Search { get; set; }
 
+    /// <summary>
+    /// Gets or sets the active tag.
+    /// </summary>
     [Parameter]
     public string? ActiveTag { get; set; }
 
+    /// <summary>
+    /// Gets or sets the active category.
+    /// </summary>
     [Parameter]
     public string? ActiveCategory { get; set; }
 
@@ -25,6 +34,7 @@ public partial class BlogSidebar
     [Inject]
     private BlogUrls Urls { get; set; } = default!;
 
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         var foundCategories = await Reader.GetCategoriesAsync();

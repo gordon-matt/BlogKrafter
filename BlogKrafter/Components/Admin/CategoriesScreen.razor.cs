@@ -5,6 +5,9 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Admin;
 
+/// <summary>
+/// Represents the categories screen.
+/// </summary>
 public partial class CategoriesScreen
 {
     private IReadOnlyList<CategoryDto>? categories;
@@ -29,6 +32,7 @@ public partial class CategoriesScreen
     [Inject]
     private ToastService Toasts { get; set; } = default!;
 
+    /// <inheritdoc/>
     protected override Task OnInitializedAsync() => LoadAsync();
 
     private async Task LoadAsync()

@@ -1,16 +1,35 @@
 namespace BlogKrafter.Data.Entities;
 
+/// <summary>
+/// Represents the blog tag.
+/// </summary>
 public class BlogTag : BaseEntity<int>
 {
+    /// <summary>
+    /// Gets or sets the tenant identifier.
+    /// </summary>
     public string TenantId { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
     public string Name { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the slug.
+    /// </summary>
     public string Slug { get; set; } = string.Empty;
 }
 
+/// <summary>
+/// Represents the blog tag map.
+/// </summary>
 public sealed class BlogTagMap : IEntityTypeConfiguration<BlogTag>
 {
+    /// <summary>
+    /// Configures the value.
+    /// </summary>
+    /// <param name="builder">The builder.</param>
     public void Configure(EntityTypeBuilder<BlogTag> builder)
     {
         builder.ToTable(Constants.Tables.Tags);

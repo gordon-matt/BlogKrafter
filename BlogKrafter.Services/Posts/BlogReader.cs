@@ -1,5 +1,8 @@
 namespace BlogKrafter.Posts;
 
+/// <summary>
+/// Represents the blog reader.
+/// </summary>
 public sealed class BlogReader(
     IUserContextService userContext,
     IBlogTenantProvider tenants,
@@ -14,6 +17,12 @@ public sealed class BlogReader(
     IRepository<BlogSlugRedirect> redirects,
     TimeProvider time) : IBlogReader
 {
+    /// <summary>
+    /// Lists the posts.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the post list result.</returns>
     public async Task<Result<PostListResult>> ListPostsAsync(PostListQuery query, CancellationToken cancellationToken = default)
     {
         var scope = await ResolveScopeAsync(query.TagSlug, query.CategorySlug, cancellationToken);
@@ -53,6 +62,13 @@ public sealed class BlogReader(
             category is null ? null : category with { PostCount = found.ItemCount }));
     }
 
+    /// <summary>
+    /// Gets the post.
+    /// </summary>
+    /// <param name="slug">The slug.</param>
+    /// <param name="preview">The preview.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the post lookup.</returns>
     public async Task<Result<PostLookup>> GetPostAsync(string slug, bool preview = false, CancellationToken cancellationToken = default)
     {
         if (preview && !userContext.IsAuthenticated())
@@ -148,6 +164,11 @@ public sealed class BlogReader(
         return Result<PostLookup>.Success(new PostLookup(dto, null));
     }
 
+    /// <summary>
+    /// Gets the archive.
+    /// </summary>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the archive years.</returns>
     public async Task<Result<IReadOnlyList<ArchiveYear>>> GetArchiveAsync(CancellationToken cancellationToken = default)
     {
         var entries = await posts.FindAsync(
@@ -168,6 +189,11 @@ public sealed class BlogReader(
         return Result<IReadOnlyList<ArchiveYear>>.Success(years);
     }
 
+    /// <summary>
+    /// Gets the categories.
+    /// </summary>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the categories.</returns>
     public async Task<Result<IReadOnlyList<CategoryDto>>> GetCategoriesAsync(CancellationToken cancellationToken = default)
     {
         string tenantId = tenants.GetTenantId();
@@ -196,6 +222,11 @@ public sealed class BlogReader(
         return Result<IReadOnlyList<CategoryDto>>.Success(result);
     }
 
+    /// <summary>
+    /// Gets the tags.
+    /// </summary>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the tags.</returns>
     public async Task<Result<IReadOnlyList<TagDto>>> GetTagsAsync(CancellationToken cancellationToken = default)
     {
         string tenantId = tenants.GetTenantId();
@@ -231,6 +262,14 @@ public sealed class BlogReader(
         return Result<IReadOnlyList<TagDto>>.Success(result);
     }
 
+    /// <summary>
+    /// Gets the recent posts.
+    /// </summary>
+    /// <param name="count">The count.</param>
+    /// <param name="tagSlug">The tag slug.</param>
+    /// <param name="categorySlug">The category slug.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the post summaries.</returns>
     public async Task<Result<IReadOnlyList<PostSummaryDto>>> GetRecentPostsAsync(
         int count,
         string? tagSlug = null,
@@ -262,6 +301,11 @@ public sealed class BlogReader(
         return Result<IReadOnlyList<PostSummaryDto>>.Success([.. found]);
     }
 
+    /// <summary>
+    /// Gets the feed items.
+    /// </summary>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the feed items.</returns>
     public async Task<Result<IReadOnlyList<FeedItem>>> GetFeedItemsAsync(CancellationToken cancellationToken = default)
     {
         var visible = PostQueries.Visible(tenants.GetTenantId(), Now());
@@ -298,6 +342,11 @@ public sealed class BlogReader(
         return Result<IReadOnlyList<FeedItem>>.Success(items);
     }
 
+    /// <summary>
+    /// Gets the sitemap entries.
+    /// </summary>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the sitemap entries.</returns>
     public async Task<Result<IReadOnlyList<SitemapEntry>>> GetSitemapEntriesAsync(CancellationToken cancellationToken = default)
     {
         var visiblePosts = await posts.FindAsync(

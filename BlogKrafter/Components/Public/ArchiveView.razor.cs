@@ -3,6 +3,9 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Public;
 
+/// <summary>
+/// Represents the archive view.
+/// </summary>
 public partial class ArchiveView
 {
     private IReadOnlyList<ArchiveYear>? years;
@@ -17,6 +20,7 @@ public partial class ArchiveView
     [Inject]
     private BlogUrls Urls { get; set; } = default!;
 
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         var found = await Reader.GetArchiveAsync();

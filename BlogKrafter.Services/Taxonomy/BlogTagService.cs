@@ -1,5 +1,8 @@
 namespace BlogKrafter.Taxonomy;
 
+/// <summary>
+/// Represents the blog tag service.
+/// </summary>
 public sealed class BlogTagService(
     ILogger<BlogTagService> logger,
     IUserContextService userContext,
@@ -9,6 +12,11 @@ public sealed class BlogTagService(
 {
     private const int SuggestionCount = 10;
 
+    /// <summary>
+    /// Lists the value.
+    /// </summary>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the tags.</returns>
     public async Task<Result<IReadOnlyList<TagDto>>> ListAsync(CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is null)
@@ -30,6 +38,12 @@ public sealed class BlogTagService(
         return Result<IReadOnlyList<TagDto>>.Success(result);
     }
 
+    /// <summary>
+    /// Searches the value.
+    /// </summary>
+    /// <param name="term">The term.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the tags.</returns>
     public async Task<Result<IReadOnlyList<TagDto>>> SearchAsync(string? term, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is null)
@@ -53,6 +67,13 @@ public sealed class BlogTagService(
         return Result<IReadOnlyList<TagDto>>.Success(result);
     }
 
+    /// <summary>
+    /// Renames the value.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the tag.</returns>
     public async Task<Result<TagDto>> RenameAsync(int id, string name, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is not string userId)
@@ -129,6 +150,12 @@ public sealed class BlogTagService(
         return Result<TagDto>.Success(new TagDto(target.Id, target.Name, target.Slug, merged));
     }
 
+    /// <summary>
+    /// Deletes the value.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the result.</returns>
     public async Task<Result> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is not string userId)

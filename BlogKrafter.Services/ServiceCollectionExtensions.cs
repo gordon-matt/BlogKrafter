@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BlogKrafter;
 
+/// <summary>
+/// Provides extension methods for blog krafter service collections.
+/// </summary>
 public static class BlogKrafterServiceCollectionExtensions
 {
     extension(IServiceCollection services)

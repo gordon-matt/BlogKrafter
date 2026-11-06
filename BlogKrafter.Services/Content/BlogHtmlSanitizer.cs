@@ -8,13 +8,24 @@ namespace BlogKrafter.Content;
 /// </summary>
 public interface IBlogHtmlSanitizer
 {
+    /// <summary>
+    /// Sanitizes the value.
+    /// </summary>
+    /// <param name="html">The HTML.</param>
+    /// <returns>The string.</returns>
     string Sanitize(string html);
 }
 
+/// <summary>
+/// Represents the blog HTML sanitizer.
+/// </summary>
 public sealed class BlogHtmlSanitizer : IBlogHtmlSanitizer
 {
     private readonly HtmlSanitizer sanitizer;
 
+    /// <summary>
+    /// Initializes a new instance of the BlogHtmlSanitizer class.
+    /// </summary>
     public BlogHtmlSanitizer()
     {
         sanitizer = new HtmlSanitizer();
@@ -32,5 +43,10 @@ public sealed class BlogHtmlSanitizer : IBlogHtmlSanitizer
         sanitizer.AllowedSchemes.Add("tel");
     }
 
+    /// <summary>
+    /// Sanitizes the value.
+    /// </summary>
+    /// <param name="html">The HTML.</param>
+    /// <returns>The string.</returns>
     public string Sanitize(string html) => string.IsNullOrWhiteSpace(html) ? string.Empty : sanitizer.Sanitize(html);
 }

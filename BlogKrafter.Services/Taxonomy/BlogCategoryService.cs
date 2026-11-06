@@ -1,5 +1,8 @@
 namespace BlogKrafter.Taxonomy;
 
+/// <summary>
+/// Represents the blog category service.
+/// </summary>
 public sealed class BlogCategoryService(
     ILogger<BlogCategoryService> logger,
     IUserContextService userContext,
@@ -7,6 +10,11 @@ public sealed class BlogCategoryService(
     IRepository<BlogCategory> categories,
     IRepository<BlogPost> posts) : IBlogCategoryService
 {
+    /// <summary>
+    /// Lists the value.
+    /// </summary>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the categories.</returns>
     public async Task<Result<IReadOnlyList<CategoryDto>>> ListAsync(CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is null)
@@ -38,6 +46,12 @@ public sealed class BlogCategoryService(
         return Result<IReadOnlyList<CategoryDto>>.Success(result);
     }
 
+    /// <summary>
+    /// Saves the value.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is the outcome for the category.</returns>
     public async Task<Result<CategoryDto>> SaveAsync(SaveCategoryRequest request, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is not string userId)
@@ -126,6 +140,12 @@ public sealed class BlogCategoryService(
         return Result<CategoryDto>.Success(ToDto(updated, postCount));
     }
 
+    /// <summary>
+    /// Deletes the value.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the result.</returns>
     public async Task<Result> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         if (userContext.GetCurrentUserId() is not string userId)

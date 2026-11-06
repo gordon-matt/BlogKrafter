@@ -8,6 +8,9 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Admin;
 
+/// <summary>
+/// Represents the post editor.
+/// </summary>
 public partial class PostEditor
 {
     private const string LocalInputFormat = "yyyy-MM-dd'T'HH:mm";
@@ -96,6 +99,7 @@ public partial class PostEditor
         _ => $"Live since {FormatLocal(model.PublishedAt!.Value)}.",
     };
 
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         var foundCategories = await Categories.ListAsync();
@@ -120,6 +124,7 @@ public partial class PostEditor
         loading = false;
     }
 
+    /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)

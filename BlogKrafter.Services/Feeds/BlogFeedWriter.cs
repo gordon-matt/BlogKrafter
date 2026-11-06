@@ -18,12 +18,21 @@ public interface IBlogFeedWriter
     string WriteSitemap(IReadOnlyList<SitemapEntry> entries, string siteUrl);
 }
 
+/// <summary>
+/// Represents the blog feed writer.
+/// </summary>
 public sealed class BlogFeedWriter(IOptions<BlogKrafterOptions> options, BlogUrls urls, TimeProvider time) : IBlogFeedWriter
 {
     private const string AtomNamespace = "http://www.w3.org/2005/Atom";
     private const string ContentNamespace = "http://purl.org/rss/1.0/modules/content/";
     private const string SitemapNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
+    /// <summary>
+    /// Writes the rss.
+    /// </summary>
+    /// <param name="items">The items.</param>
+    /// <param name="siteUrl">The site URL.</param>
+    /// <returns>The rss.</returns>
     public string WriteRss(IReadOnlyList<FeedItem> items, string siteUrl)
     {
         var blog = options.Value;
@@ -85,6 +94,12 @@ public sealed class BlogFeedWriter(IOptions<BlogKrafterOptions> options, BlogUrl
         });
     }
 
+    /// <summary>
+    /// Writes the atom.
+    /// </summary>
+    /// <param name="items">The items.</param>
+    /// <param name="siteUrl">The site URL.</param>
+    /// <returns>The atom.</returns>
     public string WriteAtom(IReadOnlyList<FeedItem> items, string siteUrl)
     {
         var blog = options.Value;
@@ -139,6 +154,12 @@ public sealed class BlogFeedWriter(IOptions<BlogKrafterOptions> options, BlogUrl
         });
     }
 
+    /// <summary>
+    /// Writes the sitemap.
+    /// </summary>
+    /// <param name="entries">The entries.</param>
+    /// <param name="siteUrl">The site URL.</param>
+    /// <returns>The sitemap.</returns>
     public string WriteSitemap(IReadOnlyList<SitemapEntry> entries, string siteUrl) => Write(writer =>
     {
         writer.WriteStartElement("urlset", SitemapNamespace);
