@@ -56,7 +56,7 @@ namespace BlogKrafter.Data.MySql.Migrations
                     b.HasIndex("TenantId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("BlogKrafterCategories", (string)null);
+                    b.ToTable("BlogKrafter_Categories", (string)null);
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogPost", b =>
@@ -177,7 +177,7 @@ namespace BlogKrafter.Data.MySql.Migrations
 
                     b.HasIndex("TenantId", "Status", "PublishedAt");
 
-                    b.ToTable("BlogKrafterPosts", (string)null);
+                    b.ToTable("BlogKrafter_Posts", (string)null);
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogPostTag", b =>
@@ -192,7 +192,7 @@ namespace BlogKrafter.Data.MySql.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("BlogKrafterPostTags", (string)null);
+                    b.ToTable("BlogKrafter_PostTags", (string)null);
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogSlugRedirect", b =>
@@ -226,7 +226,7 @@ namespace BlogKrafter.Data.MySql.Migrations
                     b.HasIndex("TenantId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("BlogKrafterSlugRedirects", (string)null);
+                    b.ToTable("BlogKrafter_SlugRedirects", (string)null);
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogTag", b =>
@@ -258,7 +258,7 @@ namespace BlogKrafter.Data.MySql.Migrations
                     b.HasIndex("TenantId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("BlogKrafterTags", (string)null);
+                    b.ToTable("BlogKrafter_Tags", (string)null);
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogPost", b =>

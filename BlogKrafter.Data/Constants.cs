@@ -11,32 +11,40 @@ public static class Constants
     /// </summary>
     public const string MigrationsHistoryTable = "__BlogKrafterMigrationsHistory";
 
+    /// <summary>Database schema for providers that support one (SQL Server and PostgreSQL).</summary>
+    public const string Schema = "bkraft";
+
     /// <summary>
-    /// Prefixed rather than schema-qualified, because SQLite and MySQL have no schemas and one naming
-    /// scheme across every provider is easier to find in a shared database.
+    /// Prepended to every table name on providers without schemas. In MySQL a schema is a database,
+    /// and SQLite has none, so the tables stay unqualified and are prefixed instead.
+    /// </summary>
+    public const string TablePrefix = "BlogKrafter_";
+
+    /// <summary>
+    /// Unqualified table names. The schema or <see cref="TablePrefix"/> is applied by the context.
     /// </summary>
     public static class Tables
     {
         /// <summary>
         /// The categories constant.
         /// </summary>
-        public const string Categories = "BlogKrafterCategories";
+        public const string Categories = "Categories";
         /// <summary>
         /// The posts constant.
         /// </summary>
-        public const string Posts = "BlogKrafterPosts";
+        public const string Posts = "Posts";
         /// <summary>
         /// The post tags constant.
         /// </summary>
-        public const string PostTags = "BlogKrafterPostTags";
+        public const string PostTags = "PostTags";
         /// <summary>
         /// The slug redirects constant.
         /// </summary>
-        public const string SlugRedirects = "BlogKrafterSlugRedirects";
+        public const string SlugRedirects = "SlugRedirects";
         /// <summary>
         /// The tags constant.
         /// </summary>
-        public const string Tags = "BlogKrafterTags";
+        public const string Tags = "Tags";
     }
 
     /// <summary>

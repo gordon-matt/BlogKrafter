@@ -31,7 +31,7 @@ public sealed class BlogKrafterDbContextFactory(string connectionString) : IBlog
 
         optionsBuilder.UseNpgsql(connectionString, npgsql => npgsql
             .MigrationsAssembly(typeof(BlogKrafterDbContext).Assembly.GetName().Name)
-            .MigrationsHistoryTable(Constants.MigrationsHistoryTable));
+            .MigrationsHistoryTable(Constants.MigrationsHistoryTable, Constants.Schema));
 
         return optionsBuilder.Options;
     }

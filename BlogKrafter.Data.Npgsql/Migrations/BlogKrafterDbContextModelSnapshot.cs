@@ -17,6 +17,7 @@ namespace BlogKrafter.Data.Npgsql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("bkraft")
                 .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -61,7 +62,7 @@ namespace BlogKrafter.Data.Npgsql.Migrations
                     b.HasIndex("TenantId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("BlogKrafterCategories", (string)null);
+                    b.ToTable("Categories", "bkraft");
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogPost", b =>
@@ -184,7 +185,7 @@ namespace BlogKrafter.Data.Npgsql.Migrations
 
                     b.HasIndex("TenantId", "Status", "PublishedAt");
 
-                    b.ToTable("BlogKrafterPosts", (string)null);
+                    b.ToTable("Posts", "bkraft");
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogPostTag", b =>
@@ -199,7 +200,7 @@ namespace BlogKrafter.Data.Npgsql.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("BlogKrafterPostTags", (string)null);
+                    b.ToTable("PostTags", "bkraft");
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogSlugRedirect", b =>
@@ -235,7 +236,7 @@ namespace BlogKrafter.Data.Npgsql.Migrations
                     b.HasIndex("TenantId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("BlogKrafterSlugRedirects", (string)null);
+                    b.ToTable("SlugRedirects", "bkraft");
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogTag", b =>
@@ -269,7 +270,7 @@ namespace BlogKrafter.Data.Npgsql.Migrations
                     b.HasIndex("TenantId", "Slug")
                         .IsUnique();
 
-                    b.ToTable("BlogKrafterTags", (string)null);
+                    b.ToTable("Tags", "bkraft");
                 });
 
             modelBuilder.Entity("BlogKrafter.Data.Entities.BlogPost", b =>
