@@ -39,6 +39,20 @@
     }
     else
     {
-        <MarkdownEditor @key="editorGeneration" Value="@Content" ValueChanged="ContentChanged" />
+        <MarkdownEditor @ref="markdown" @key="editorGeneration" Value="@Content" ValueChanged="ContentChanged" Rows="22" AriaLabel="Content (Markdown)">
+            <ToolbarExtra>
+                @if (Capabilities.HasFileManager)
+                {
+                    <button type="button" class="nf-icon-button" title="Insert image" aria-label="Insert image" @onclick="PickImageAsync"><Icon Name="image" Size="16" /></button>
+                }
+            </ToolbarExtra>
+            <Preview Context="source">
+                <div class="bk-prose">@((MarkupString)Renderer.Render(source, ContentFormat.Markdown).Html)</div>
+            </Preview>
+        </MarkdownEditor>
+        @if (pickError is not null)
+        {
+            <p class="nf-validation">@pickError</p>
+        }
     }
 </div>

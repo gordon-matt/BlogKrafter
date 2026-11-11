@@ -13,15 +13,6 @@ internal sealed class BlogScript(IJSRuntime js, IBlogFileRootProvider fileRoots)
         where T : class =>
         await (await ModuleAsync()).InvokeVoidAsync("pickFile", receiver, method, type, fileRoots.GetFileRoot() ?? string.Empty);
 
-    public async Task<string> WrapSelectionAsync(ElementReference textarea, string before, string after, string placeholder) =>
-        await (await ModuleAsync()).InvokeAsync<string>("wrapSelection", textarea, before, after, placeholder);
-
-    public async Task<string> PrefixLinesAsync(ElementReference textarea, string prefix) =>
-        await (await ModuleAsync()).InvokeAsync<string>("prefixLines", textarea, prefix);
-
-    public async Task<string> InsertTextAsync(ElementReference textarea, string text) =>
-        await (await ModuleAsync()).InvokeAsync<string>("insertText", textarea, text);
-
     public async Task<string?> TimeZoneAsync() =>
         await (await ModuleAsync()).InvokeAsync<string?>("timeZone");
 

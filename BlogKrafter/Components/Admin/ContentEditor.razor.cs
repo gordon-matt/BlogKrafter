@@ -1,6 +1,9 @@
 using BlogKrafter.Content;
+using BlogKrafter.Infrastructure;
 using Heroicsoft.NetForge.Components.Dialogs;
+using Heroicsoft.NetForge.Components.Editors;
 using Heroicsoft.NetForge.Components.Toasts;
+using Microsoft.JSInterop;
 
 namespace BlogKrafter.Components.Admin;
 
@@ -8,9 +11,12 @@ namespace BlogKrafter.Components.Admin;
 /// The body of a post in whichever editor the site offers: Markdown, or the rich text editor the host
 /// registered with Pickstack. Switching converts the content so nothing is lost.
 /// </summary>
-public partial class ContentEditor
+public partial class ContentEditor : IDisposable
 {
     private int editorGeneration;
+    private MarkdownEditor? markdown;
+    private string? pickError;
+    private DotNetObjectReference<ContentEditor>? selfReference;
 
     /// <summary>
     /// Gets or sets the format.
@@ -50,6 +56,9 @@ public partial class ContentEditor
 
     [Inject]
     private ToastService Toasts { get; set; } = default!;
+
+    [Inject]
+    private BlogScript Script { get; set; } = default!;
 
     /// <summary>
     /// Markdown becomes the HTML it renders to. HTML is kept as it is when going the other way:
@@ -92,4 +101,35 @@ public partial class ContentEditor
     }
 
     private Task HtmlChangedAsync(ChangeEventArgs args) => ContentChanged.InvokeAsync(args.Value?.ToString() ?? string.Empty);
+
+    private async Task PickImageAsync()
+    {
+        pickError = null;
+        selfReference ??= DotNetObjectReference.Create(this);
+
+        try
+        {
+            await Script.PickFileAsync(selfReference, nameof(InsertImageAsync), "image");
+        }
+        catch (JSException)
+        {
+            pickError = "The file picker did not open. Check that the site registers a Pickstack file manager.";
+        }
+    }
+
+    /// <summary>Called by the file picker with the chosen image address.</summary>
+    [JSInvokable]
+    public async Task InsertImageAsync(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url) || markdown is null)
+        {
+            return;
+        }
+
+        string image = $"![Describe the image]({url.Replace(" ", "%20", StringComparison.Ordinal)})";
+        await markdown.InsertTextAsync(image);
+    }
+
+    /// <inheritdoc />
+    public void Dispose() => selfReference?.Dispose();
 }
