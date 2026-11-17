@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<IsPackable>false</IsPackable>
@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Pickstack.FileManager.WebFilez" Version="1.0.4" />
-		<PackageReference Include="Pickstack.RichTextEditor.TinyMce8" Version="1.0.3" />
+	  <PackageReference Include="Pickstack.FileManager.WebFilez" Version="1.0.6" />
+	  <PackageReference Include="Pickstack.RichTextEditor.TinyMce8" Version="1.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>

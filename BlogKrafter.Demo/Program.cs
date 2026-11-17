@@ -46,9 +46,22 @@ builder.Services.BuildMenu(menu => menu
 builder.Services.AddControllersWithViews();
 builder.Services.AddPickstack(builder.Configuration)
     .AddWebFilez(files => files.UseHostBlazor())
+    .Pickstack
     .AddTinyMce8(editor => editor
         .WithHeight(520)
-        .WithToolbar("undo redo | blocks | bold italic | bullist numlist blockquote | link image media | code"));
+        .WithMinHeight(520)
+        .ShowMenubar()
+        .WithPlugins(
+            "accordion", "advlist", "anchor", "autolink", "autoresize", "autosave", "charmap", "code",
+            "codesample", "directionality", "emoticons", "fullscreen", "help", "image",
+            "importcss", "insertdatetime", "link", "lists", "media",
+            "nonbreaking", "pagebreak", "preview", "quickbars", "save", "searchreplace",
+            "table", "visualblocks", "visualchars", "wordcount")
+        .WithToolbars(
+            "undo redo | save print | preview fullscreen code",
+            "blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor removeformat",
+            "align | numlist bullist | outdent indent | lineheight | ltr rtl",
+            "link anchor image media | table | accordion accordionremove | pagebreak codesample charmap emoticons"));
 
 builder.Services.AddBlogKrafter(options =>
 {
