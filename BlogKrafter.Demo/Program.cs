@@ -80,6 +80,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseStaticFiles();
 app.MapStaticAssets();
+
+app.MapNetForgeAssets();
 app.UseAntiforgery();
 
 app.UseAuthentication();
