@@ -285,8 +285,6 @@ build/
 *.db-shm
 *.db-wal
 TestResults/
-NuGet-Push.ps1
 # Demo uploads and database
 BlogKrafter.Demo/wwwroot/media/
 BlogKrafter.Demo/*.db*
-
