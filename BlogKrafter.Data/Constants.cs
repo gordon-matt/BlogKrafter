@@ -1,8 +1,6 @@
 namespace BlogKrafter;
 
-/// <summary>
-/// Provides constants.
-/// </summary>
+/// <summary>Table names, column lengths, and the storage-provider names shared by every database package.</summary>
 public static class Constants
 {
     /// <summary>
@@ -25,103 +23,72 @@ public static class Constants
     /// </summary>
     public static class Tables
     {
-        /// <summary>
-        /// The categories constant.
-        /// </summary>
+        /// <summary>The categories table. The value is <c>Categories</c>.</summary>
         public const string Categories = "Categories";
-        /// <summary>
-        /// The posts constant.
-        /// </summary>
+
+        /// <summary>The posts table. The value is <c>Posts</c>.</summary>
         public const string Posts = "Posts";
-        /// <summary>
-        /// The post tags constant.
-        /// </summary>
+
+        /// <summary>The post-to-tag table. The value is <c>PostTags</c>.</summary>
         public const string PostTags = "PostTags";
-        /// <summary>
-        /// The slug redirects constant.
-        /// </summary>
+
+        /// <summary>The old-address table. The value is <c>SlugRedirects</c>.</summary>
         public const string SlugRedirects = "SlugRedirects";
-        /// <summary>
-        /// The tags constant.
-        /// </summary>
+
+        /// <summary>The tags table. The value is <c>Tags</c>.</summary>
         public const string Tags = "Tags";
     }
 
-    /// <summary>
-    /// Provides max lengths.
-    /// </summary>
+    /// <summary>Column lengths, in characters. Saves that exceed them are rejected.</summary>
     public static class MaxLengths
     {
-        /// <summary>
-        /// The author name constant.
-        /// </summary>
+        /// <summary>The longest author name copied onto a post. The value is 128.</summary>
         public const int AuthorName = 128;
-        /// <summary>
-        /// The category description constant.
-        /// </summary>
+
+        /// <summary>The longest category description. The value is 1000.</summary>
         public const int CategoryDescription = 1000;
-        /// <summary>
-        /// The category name constant.
-        /// </summary>
+
+        /// <summary>The longest category name. The value is 128.</summary>
         public const int CategoryName = 128;
-        /// <summary>
-        /// The image alt constant.
-        /// </summary>
+
+        /// <summary>The longest cover-image description. The value is 256.</summary>
         public const int ImageAlt = 256;
-        /// <summary>
-        /// The meta description constant.
-        /// </summary>
+
+        /// <summary>The longest search description. The value is 320.</summary>
         public const int MetaDescription = 320;
-        /// <summary>
-        /// The slug constant.
-        /// </summary>
+        /// <summary>The longest slug. The value is 200.</summary>
         public const int Slug = 200;
-        /// <summary>
-        /// The summary constant.
-        /// </summary>
+
+        /// <summary>The longest summary or excerpt. The value is 1000.</summary>
         public const int Summary = 1000;
-        /// <summary>
-        /// The tag name constant.
-        /// </summary>
+        /// <summary>The longest tag name. The value is 64.</summary>
         public const int TagName = 64;
 
         /// <summary>Wide enough for a GUID or a host name, and short enough to lead every composite index.</summary>
         public const int TenantId = 64;
 
-        /// <summary>
-        /// The title constant.
-        /// </summary>
+        /// <summary>The longest title or search title. The value is 256.</summary>
         public const int Title = 256;
-        /// <summary>
-        /// The URL constant.
-        /// </summary>
+
+        /// <summary>The longest cover or canonical address. The value is 1024.</summary>
         public const int Url = 1024;
-        /// <summary>
-        /// The user identifier constant.
-        /// </summary>
+        /// <summary>The longest author id. The value is 128.</summary>
         public const int UserId = 128;
     }
 
-    /// <summary>
-    /// Provides database providers.
-    /// </summary>
+    /// <summary>Values of <see cref="Data.IBlogKrafterDbContextFactory.ProviderName"/>.</summary>
     public static class DatabaseProviders
     {
-        /// <summary>
-        /// The my SQL constant.
-        /// </summary>
+        /// <summary>MySQL. The value is <c>MySql</c>.</summary>
         public const string MySql = "MySql";
-        /// <summary>
-        /// The npgsql constant.
-        /// </summary>
+
+        /// <summary>PostgreSQL. The value is <c>Npgsql</c>.</summary>
         public const string Npgsql = "Npgsql";
-        /// <summary>
-        /// The sqlite constant.
-        /// </summary>
+
+        /// <summary>SQLite. The value is <c>Sqlite</c>.</summary>
         public const string Sqlite = "Sqlite";
-        /// <summary>
-        /// The SQL server constant.
-        /// </summary>
+
+        /// <summary>SQL Server. The value is <c>SqlServer</c>.</summary>
         public const string SqlServer = "SqlServer";
     }
 }

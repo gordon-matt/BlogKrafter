@@ -1,35 +1,23 @@
 namespace BlogKrafter.Data.Entities;
 
-/// <summary>
-/// Represents the blog tag.
-/// </summary>
+/// <summary>A tag. Tags are created when a post is saved with a name that does not exist yet.</summary>
 public class BlogTag : BaseEntity<int>
 {
-    /// <summary>
-    /// Gets or sets the tenant identifier.
-    /// </summary>
+    /// <summary>Empty for a single-site host. Not nullable, so the unique slug index behaves the same on every provider.</summary>
     public string TenantId { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
+    /// <summary>The name authors type and readers see.</summary>
     public string Name { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the slug.
-    /// </summary>
+    /// <summary>The address segment, derived from <see cref="Name"/>. Unique with <see cref="TenantId"/>.</summary>
     public string Slug { get; set; } = string.Empty;
 }
 
-/// <summary>
-/// Represents the blog tag map.
-/// </summary>
+/// <summary>Maps a tag and its unique slug per tenant.</summary>
 public sealed class BlogTagMap : IEntityTypeConfiguration<BlogTag>
 {
-    /// <summary>
-    /// Configures the value.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
+    /// <summary>Maps the tags table and the unique slug index.</summary>
+    /// <param name="builder">The tag builder.</param>
     public void Configure(EntityTypeBuilder<BlogTag> builder)
     {
         builder.ToTable(Constants.Tables.Tags);

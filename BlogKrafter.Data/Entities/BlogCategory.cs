@@ -1,45 +1,29 @@
 namespace BlogKrafter.Data.Entities;
 
-/// <summary>
-/// Represents the blog category.
-/// </summary>
+/// <summary>A category. Its slug is unique within a tenant. Deleting it leaves the posts and clears their category.</summary>
 public class BlogCategory : BaseEntity<int>
 {
-    /// <summary>
-    /// Gets or sets the tenant identifier.
-    /// </summary>
+    /// <summary>Empty for a single-site host. Not nullable, so the unique slug index behaves the same on every provider.</summary>
     public string TenantId { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
+    /// <summary>The name shown in the sidebar and on the category page.</summary>
     public string Name { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the slug.
-    /// </summary>
+    /// <summary>The address segment. Unique with <see cref="TenantId"/>.</summary>
     public string Slug { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the description.
-    /// </summary>
+    /// <summary>Optional text shown with the category. <see langword="null"/> when the editor left it blank.</summary>
     public string? Description { get; set; }
 
-    /// <summary>
-    /// Gets or sets the sort order.
-    /// </summary>
+    /// <summary>Sort order in the editor and the sidebar. Lower comes first, then the name.</summary>
     public int SortOrder { get; set; }
 }
 
-/// <summary>
-/// Represents the blog category map.
-/// </summary>
+/// <summary>Maps a category and its unique slug per tenant.</summary>
 public sealed class BlogCategoryMap : IEntityTypeConfiguration<BlogCategory>
 {
-    /// <summary>
-    /// Configures the value.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
+    /// <summary>Maps the categories table and the unique slug index.</summary>
+    /// <param name="builder">The category builder.</param>
     public void Configure(EntityTypeBuilder<BlogCategory> builder)
     {
         builder.ToTable(Constants.Tables.Categories);

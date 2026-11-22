@@ -1,13 +1,9 @@
 namespace BlogKrafter.Components.Public;
 
-/// <summary>
-/// Represents the post card.
-/// </summary>
+/// <summary>One post as a list card: cover, title, excerpt, and the date line.</summary>
 public partial class PostCard
 {
-    /// <summary>
-    /// Gets or sets the post.
-    /// </summary>
+    /// <summary>The post the card shows.</summary>
     [Parameter, EditorRequired]
     public PostSummaryDto Post { get; set; } = default!;
 

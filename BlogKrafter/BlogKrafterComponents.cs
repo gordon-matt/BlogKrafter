@@ -2,9 +2,7 @@ using System.Reflection;
 
 namespace BlogKrafter;
 
-/// <summary>
-/// Provides blog krafter components.
-/// </summary>
+/// <summary>The assembly that holds the ready-made blog and editor pages.</summary>
 public static class BlogKrafterComponents
 {
     /// <summary>

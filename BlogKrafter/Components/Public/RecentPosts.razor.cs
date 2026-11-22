@@ -4,33 +4,25 @@ namespace BlogKrafter.Components.Public;
 
 /// <summary>
 /// The latest posts, for a home page or a sidebar elsewhere on the site. Narrow it to a tag or a
-/// category with their slugs.
+/// category with their slugs. A failed read shows an empty list.
 /// </summary>
 public partial class RecentPosts
 {
     private IReadOnlyList<PostSummaryDto>? posts;
 
-    /// <summary>
-    /// Gets or sets the count.
-    /// </summary>
+    /// <summary>How many posts to show. The default is 3. Zero shows none.</summary>
     [Parameter]
     public int Count { get; set; } = 3;
 
-    /// <summary>
-    /// Gets or sets the tag slug.
-    /// </summary>
+    /// <summary>When set, only posts with this tag.</summary>
     [Parameter]
     public string? TagSlug { get; set; }
 
-    /// <summary>
-    /// Gets or sets the category slug.
-    /// </summary>
+    /// <summary>When set, only posts in this category.</summary>
     [Parameter]
     public string? CategorySlug { get; set; }
 
-    /// <summary>
-    /// Gets or sets the title.
-    /// </summary>
+    /// <summary>The heading. The default is "Latest posts". Blank omits it.</summary>
     [Parameter]
     public string? Title { get; set; } = "Latest posts";
 
@@ -39,7 +31,8 @@ public partial class RecentPosts
     public bool Compact { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this instance is show more link.
+    /// <see langword="true"/> shows a link to the tag, otherwise the category, otherwise the blog index.
+    /// The default is <see langword="true"/>.
     /// </summary>
     [Parameter]
     public bool ShowMoreLink { get; set; } = true;

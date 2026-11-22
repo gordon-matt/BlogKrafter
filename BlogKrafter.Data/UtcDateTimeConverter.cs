@@ -10,9 +10,7 @@ public sealed class UtcDateTimeConverter() : ValueConverter<DateTime, DateTime>(
     value => value.Kind == DateTimeKind.Utc ? value : value.ToUniversalTime(),
     value => DateTime.SpecifyKind(value, DateTimeKind.Utc))
 {
-    /// <summary>
-    /// Gets the instance.
-    /// </summary>
+    /// <summary>The converter the entity maps share.</summary>
     public static UtcDateTimeConverter Instance { get; } = new();
 }
 
@@ -21,8 +19,6 @@ public sealed class UtcNullableDateTimeConverter() : ValueConverter<DateTime?, D
     value => value.HasValue ? (value.Value.Kind == DateTimeKind.Utc ? value.Value : value.Value.ToUniversalTime()) : value,
     value => value.HasValue ? DateTime.SpecifyKind(value.Value, DateTimeKind.Utc) : value)
 {
-    /// <summary>
-    /// Gets the instance.
-    /// </summary>
+    /// <summary>The converter the entity maps share.</summary>
     public static UtcNullableDateTimeConverter Instance { get; } = new();
 }

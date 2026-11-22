@@ -5,9 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BlogKrafter;
 
-/// <summary>
-/// Provides extension methods for blog krafter service collections.
-/// </summary>
+/// <summary>Registers BlogKrafter's services without the Blazor pages.</summary>
 public static class BlogKrafterServiceCollectionExtensions
 {
     extension(IServiceCollection services)
@@ -16,7 +14,11 @@ public static class BlogKrafterServiceCollectionExtensions
         /// Registers BlogKrafter's services without any UI. A storage provider must be added as well,
         /// from one of the <c>BlogKrafter.Data.*</c> packages. Most hosts call <c>AddBlogKrafter</c>
         /// from the <c>BlogKrafter</c> package instead, which calls this.
+        /// A tenant provider, sanitizer, renderer, or feed writer the host already registered is left in place.
+        /// Paths are normalized, a blank site address is cleared, and an unknown time zone fails when the host starts.
         /// </summary>
+        /// <param name="configure">Adjusts the options. <see langword="null"/> keeps the defaults.</param>
+        /// <returns>The same service collection.</returns>
         public IServiceCollection AddBlogKrafterServices(Action<BlogKrafterOptions>? configure = null)
         {
             services.AddOptions<BlogKrafterOptions>()

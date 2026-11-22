@@ -34,16 +34,12 @@ public partial class BlogAdminView
 /// <summary>The editor screens <see cref="BlogAdminView"/> can show.</summary>
 public enum AdminSection
 {
-    /// <summary>
-    /// The posts value.
-    /// </summary>
+    /// <summary>The post list, or one post when an id is also in the route.</summary>
     Posts,
-    /// <summary>
-    /// The categories value.
-    /// </summary>
+
+    /// <summary>The category list.</summary>
     Categories,
-    /// <summary>
-    /// The tags value.
-    /// </summary>
+
+    /// <summary>The tag list.</summary>
     Tags,
 }

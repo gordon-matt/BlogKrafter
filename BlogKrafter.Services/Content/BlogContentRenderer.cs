@@ -13,20 +13,21 @@ public sealed record RenderedContent(string Html, string Excerpt, int WordCount,
 public interface IBlogContentRenderer
 {
     /// <summary>
-    /// Renders the value.
+    /// Renders the source. Markdown is converted first. The HTML is sanitized, second- and third-level headings receive anchors, and frames whose host is not allowed are removed.
+    /// A blank source returns empty HTML, an empty excerpt, and no words.
     /// </summary>
-    /// <param name="source">The source.</param>
-    /// <param name="format">The format.</param>
-    /// <returns>The rendered content.</returns>
+    /// <param name="source">The Markdown or HTML the author wrote.</param>
+    /// <param name="format">Which of the two <paramref name="source"/> is.</param>
+    /// <returns>The stored HTML, the excerpt, the word count, and the headings.</returns>
     RenderedContent Render(string? source, ContentFormat format);
 
-    /// <summary>Reads the table of contents back out of HTML this renderer produced.</summary>
+    /// <summary>Reads the table of contents back out of HTML this renderer produced. Only second- and third-level headings that already have an id are included.</summary>
+    /// <param name="html">The stored HTML.</param>
+    /// <returns>The headings. Blank HTML returns an empty list.</returns>
     IReadOnlyList<TocEntry> ReadHeadings(string html);
 }
 
-/// <summary>
-/// Represents the blog content renderer.
-/// </summary>
+/// <inheritdoc cref="IBlogContentRenderer"/>
 public sealed class BlogContentRenderer(IBlogHtmlSanitizer sanitizer, IOptions<BlogKrafterOptions> options) : IBlogContentRenderer
 {
     private const int ExcerptLength = 280;
@@ -35,12 +36,7 @@ public sealed class BlogContentRenderer(IBlogHtmlSanitizer sanitizer, IOptions<B
         .UseAdvancedExtensions()
         .Build();
 
-    /// <summary>
-    /// Renders the value.
-    /// </summary>
-    /// <param name="source">The source.</param>
-    /// <param name="format">The format.</param>
-    /// <returns>The rendered content.</returns>
+    /// <inheritdoc/>
     public RenderedContent Render(string? source, ContentFormat format)
     {
         if (string.IsNullOrWhiteSpace(source))
@@ -62,18 +58,17 @@ public sealed class BlogContentRenderer(IBlogHtmlSanitizer sanitizer, IOptions<B
         return new RenderedContent(body.InnerHtml, CreateExcerpt(body), words, headings);
     }
 
-    /// <summary>
-    /// Reads the headings.
-    /// </summary>
-    /// <param name="html">The HTML.</param>
-    /// <returns>The headings.</returns>
+    /// <inheritdoc/>
     public IReadOnlyList<TocEntry> ReadHeadings(string html) => string.IsNullOrWhiteSpace(html)
             ? []
             : [.. Parse(html).QuerySelectorAll("h2[id], h3[id]")
             .Select(heading => new TocEntry(heading.Id!, NormalizeWhitespace(heading.TextContent), heading.LocalName == "h2" ? 2 : 3))
             .Where(entry => entry.Text.Length > 0)];
 
-    /// <summary>Shortens plain text to about <paramref name="length"/> characters, ending on a word.</summary>
+    /// <summary>Shortens plain text to about <paramref name="length"/> characters, ending on a word, and finishes with an ellipsis.</summary>
+    /// <param name="text">The plain text. Whitespace is collapsed first.</param>
+    /// <param name="length">The longest result before the ellipsis. The default is 280.</param>
+    /// <returns>The text, unchanged when it already fits.</returns>
     public static string Truncate(string text, int length = ExcerptLength)
     {
         string normalized = NormalizeWhitespace(text);

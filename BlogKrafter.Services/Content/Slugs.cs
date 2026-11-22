@@ -3,9 +3,7 @@ using System.Text;
 
 namespace BlogKrafter.Content;
 
-/// <summary>
-/// Provides slugs.
-/// </summary>
+/// <summary>Turns titles and typed addresses into the slugs stored on posts, categories, and tags.</summary>
 public static class Slugs
 {
     /// <summary>
@@ -13,6 +11,9 @@ public static class Slugs
     /// (<c>Café</c> becomes <c>cafe</c>); anything else that is not a letter or digit becomes a separator.
     /// Returns empty when nothing usable is left, such as for a title written only in symbols.
     /// </summary>
+    /// <param name="text">The title or typed address. <see langword="null"/> and blank return an empty string.</param>
+    /// <param name="maxLength">The longest result. The default is the slug column length. A cut ends on a hyphen being removed.</param>
+    /// <returns>The slug, or an empty string when nothing usable remains.</returns>
     public static string Generate(string? text, int maxLength = Constants.MaxLengths.Slug)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -54,6 +55,9 @@ public static class Slugs
     }
 
     /// <summary>Appends <c>-2</c>, <c>-3</c> and so on, keeping the result inside the column length.</summary>
+    /// <param name="slug">The slug to extend. It is shortened when the suffix would pass the column length.</param>
+    /// <param name="number">The suffix, written with invariant digits.</param>
+    /// <returns>The slug with the suffix.</returns>
     public static string WithSuffix(string slug, int number)
     {
         string suffix = "-" + number.ToString(CultureInfo.InvariantCulture);

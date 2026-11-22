@@ -8,31 +8,33 @@ namespace BlogKrafter.Feeds;
 /// <summary>Writes the RSS, Atom and sitemap documents. Feed readers need absolute links, hence <c>siteUrl</c>.</summary>
 public interface IBlogFeedWriter
 {
+    /// <summary>An RSS document. Each item uses the excerpt as the summary and the rendered HTML as the full content.</summary>
+    /// <param name="items">The posts, newest first.</param>
     /// <param name="siteUrl">Scheme, host and any path base, such as <c>https://example.com</c>.</param>
+    /// <returns>The RSS document.</returns>
     string WriteRss(IReadOnlyList<FeedItem> items, string siteUrl);
 
+    /// <summary>An Atom document. Each entry uses the excerpt as the summary and the rendered HTML as the content.</summary>
+    /// <param name="items">The posts, newest first.</param>
     /// <param name="siteUrl">Scheme, host and any path base, such as <c>https://example.com</c>.</param>
+    /// <returns>The Atom document.</returns>
     string WriteAtom(IReadOnlyList<FeedItem> items, string siteUrl);
 
+    /// <summary>A sitemap document. Each location is <paramref name="siteUrl"/> joined to the entry's path.</summary>
+    /// <param name="entries">The index, the posts, and the used categories and tags.</param>
     /// <param name="siteUrl">Scheme, host and any path base, such as <c>https://example.com</c>.</param>
+    /// <returns>The sitemap document.</returns>
     string WriteSitemap(IReadOnlyList<SitemapEntry> entries, string siteUrl);
 }
 
-/// <summary>
-/// Represents the blog feed writer.
-/// </summary>
+/// <inheritdoc cref="IBlogFeedWriter"/>
 public sealed class BlogFeedWriter(IOptions<BlogKrafterOptions> options, BlogUrls urls, TimeProvider time) : IBlogFeedWriter
 {
     private const string AtomNamespace = "http://www.w3.org/2005/Atom";
     private const string ContentNamespace = "http://purl.org/rss/1.0/modules/content/";
     private const string SitemapNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
-    /// <summary>
-    /// Writes the rss.
-    /// </summary>
-    /// <param name="items">The items.</param>
-    /// <param name="siteUrl">The site URL.</param>
-    /// <returns>The rss.</returns>
+    /// <inheritdoc/>
     public string WriteRss(IReadOnlyList<FeedItem> items, string siteUrl)
     {
         var blog = options.Value;
@@ -94,12 +96,7 @@ public sealed class BlogFeedWriter(IOptions<BlogKrafterOptions> options, BlogUrl
         });
     }
 
-    /// <summary>
-    /// Writes the atom.
-    /// </summary>
-    /// <param name="items">The items.</param>
-    /// <param name="siteUrl">The site URL.</param>
-    /// <returns>The atom.</returns>
+    /// <inheritdoc/>
     public string WriteAtom(IReadOnlyList<FeedItem> items, string siteUrl)
     {
         var blog = options.Value;
@@ -154,12 +151,7 @@ public sealed class BlogFeedWriter(IOptions<BlogKrafterOptions> options, BlogUrl
         });
     }
 
-    /// <summary>
-    /// Writes the sitemap.
-    /// </summary>
-    /// <param name="entries">The entries.</param>
-    /// <param name="siteUrl">The site URL.</param>
-    /// <returns>The sitemap.</returns>
+    /// <inheritdoc/>
     public string WriteSitemap(IReadOnlyList<SitemapEntry> entries, string siteUrl) => Write(writer =>
     {
         writer.WriteStartElement("urlset", SitemapNamespace);

@@ -1,13 +1,9 @@
 namespace BlogKrafter.Components.Admin;
 
-/// <summary>
-/// Represents the state badge.
-/// </summary>
+/// <summary>A badge reading Draft, Scheduled, or Published.</summary>
 public partial class StateBadge
 {
-    /// <summary>
-    /// Gets or sets the state.
-    /// </summary>
+    /// <summary>The state the badge shows.</summary>
     [Parameter]
     public PostState State { get; set; }
 

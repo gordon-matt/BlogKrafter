@@ -1,13 +1,9 @@
 namespace BlogKrafter.Components.Admin;
 
-/// <summary>
-/// Represents the admin nav.
-/// </summary>
+/// <summary>Links between the posts, categories, and tags screens.</summary>
 public partial class AdminNav
 {
-    /// <summary>
-    /// Gets or sets the current.
-    /// </summary>
+    /// <summary>The screen to highlight. <see langword="null"/> highlights none.</summary>
     [Parameter]
     public AdminSection? Current { get; set; }
 

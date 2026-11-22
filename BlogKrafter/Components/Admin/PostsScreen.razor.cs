@@ -6,9 +6,7 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Admin;
 
-/// <summary>
-/// Represents the posts screen.
-/// </summary>
+/// <summary>The editor's post list. It filters, searches, and deletes posts.</summary>
 public partial class PostsScreen : IDisposable
 {
     private static readonly IReadOnlyList<(PostFilter Filter, string Label)> Filters =
@@ -147,9 +145,7 @@ public partial class PostsScreen : IDisposable
     private string FormatDate(DateTime? utc) =>
         utc is DateTime value ? time.ToLocal(value).ToString("d MMM yyyy", CultureInfo.CurrentCulture) : "—";
 
-    /// <summary>
-    /// Releases the resources used by this instance.
-    /// </summary>
+    /// <summary>Cancels a search that is still waiting to run.</summary>
     public void Dispose()
     {
         searchDelay?.Cancel();

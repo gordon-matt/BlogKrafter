@@ -3,9 +3,7 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Public;
 
-/// <summary>
-/// Represents the archive view.
-/// </summary>
+/// <summary>Visible posts grouped by year. A failed read shows the error instead of the years.</summary>
 public partial class ArchiveView
 {
     private IReadOnlyList<ArchiveYear>? years;

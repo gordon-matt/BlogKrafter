@@ -10,39 +10,27 @@ public partial class CoverImageField : IDisposable
     private string? pickError;
     private DotNetObjectReference<CoverImageField>? selfReference;
 
-    /// <summary>
-    /// Gets or sets the URL.
-    /// </summary>
+    /// <summary>The cover address. Blank means no cover.</summary>
     [Parameter]
     public string? Url { get; set; }
 
-    /// <summary>
-    /// Gets or sets the URL changed.
-    /// </summary>
+    /// <summary>Raised when the address changes, including when the author clears it.</summary>
     [Parameter]
     public EventCallback<string?> UrlChanged { get; set; }
 
-    /// <summary>
-    /// Gets or sets the alt.
-    /// </summary>
+    /// <summary>The cover's alternative text.</summary>
     [Parameter]
     public string? Alt { get; set; }
 
-    /// <summary>
-    /// Gets or sets the alt changed.
-    /// </summary>
+    /// <summary>Raised when the alternative text changes.</summary>
     [Parameter]
     public EventCallback<string?> AltChanged { get; set; }
 
-    /// <summary>
-    /// Gets or sets the URL error.
-    /// </summary>
+    /// <summary>A validation message for the address. <see langword="null"/> shows none.</summary>
     [Parameter]
     public string? UrlError { get; set; }
 
-    /// <summary>
-    /// Gets or sets the alt error.
-    /// </summary>
+    /// <summary>A validation message for the alternative text. <see langword="null"/> shows none.</summary>
     [Parameter]
     public string? AltError { get; set; }
 
@@ -67,11 +55,9 @@ public partial class CoverImageField : IDisposable
         }
     }
 
-    /// <summary>
-    /// Performs the image chosen operation.
-    /// </summary>
-    /// <param name="url">The URL.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <summary>Called by the file picker. A blank address is ignored; any other address is written through <see cref="UrlChanged"/>.</summary>
+    /// <param name="url">The address the picker returned.</param>
+    /// <returns>A task that completes once the address has been written.</returns>
     [JSInvokable]
     public async Task ImageChosenAsync(string? url)
     {
@@ -91,8 +77,6 @@ public partial class CoverImageField : IDisposable
         await AltChanged.InvokeAsync(null);
     }
 
-    /// <summary>
-    /// Releases the resources used by this instance.
-    /// </summary>
+    /// <summary>Releases the reference the file picker calls back into.</summary>
     public void Dispose() => selfReference?.Dispose();
 }

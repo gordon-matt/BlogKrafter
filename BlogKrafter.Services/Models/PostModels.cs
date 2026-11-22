@@ -3,62 +3,47 @@ namespace BlogKrafter.Models;
 /// <summary>What a reader sees of a post's state. Scheduled is a published post whose date has not arrived.</summary>
 public enum PostState
 {
-    /// <summary>
-    /// The draft value.
-    /// </summary>
+    /// <summary>Not visible. It has not been published.</summary>
     Draft,
-    /// <summary>
-    /// The scheduled value.
-    /// </summary>
+
+    /// <summary>Published, but the publish date has not arrived, so readers cannot see it yet.</summary>
     Scheduled,
-    /// <summary>
-    /// The published value.
-    /// </summary>
+
+    /// <summary>Visible. The publish date is empty or has arrived.</summary>
     Published,
 }
 
 /// <summary>Filters the editor's post list.</summary>
 public enum PostFilter
 {
-    /// <summary>
-    /// The all value.
-    /// </summary>
+    /// <summary>Drafts, scheduled posts, and live posts.</summary>
     All,
-    /// <summary>
-    /// The drafts value.
-    /// </summary>
+
+    /// <summary>Posts that have not been published.</summary>
     Drafts,
-    /// <summary>
-    /// The scheduled value.
-    /// </summary>
+
+    /// <summary>Published posts whose date has not arrived.</summary>
     Scheduled,
-    /// <summary>
-    /// The published value.
-    /// </summary>
+
+    /// <summary>Posts readers can see.</summary>
     Published,
 }
 
-/// <summary>
-/// Represents the category ref.
-/// </summary>
-/// <param name="Id">The identifier.</param>
-/// <param name="Name">The name.</param>
-/// <param name="Slug">The slug.</param>
+/// <summary>A category named on a post, enough to link to it.</summary>
+/// <param name="Id">The category id.</param>
+/// <param name="Name">The name shown beside the post.</param>
+/// <param name="Slug">The address segment.</param>
 public sealed record CategoryRef(int Id, string Name, string Slug);
 
-/// <summary>
-/// Represents the tag ref.
-/// </summary>
-/// <param name="Id">The identifier.</param>
-/// <param name="Name">The name.</param>
-/// <param name="Slug">The slug.</param>
+/// <summary>A tag named on a post, enough to link to it.</summary>
+/// <param name="Id">The tag id.</param>
+/// <param name="Name">The name shown on the post.</param>
+/// <param name="Slug">The address segment.</param>
 public sealed record TagRef(int Id, string Name, string Slug);
 
-/// <summary>
-/// Represents the post link.
-/// </summary>
-/// <param name="Title">The title.</param>
-/// <param name="Slug">The slug.</param>
+/// <summary>A neighbouring post, enough for a previous or next link.</summary>
+/// <param name="Title">The title of that post.</param>
+/// <param name="Slug">The address segment of that post.</param>
 public sealed record PostLink(string Title, string Slug);
 
 /// <summary>A heading the table of contents links to. <see cref="Id"/> is the anchor written into the post.</summary>
@@ -116,29 +101,19 @@ public sealed record PostDto(
 /// </summary>
 public sealed record PostLookup(PostDto? Post, string? RedirectSlug);
 
-/// <summary>
-/// Represents the post list query.
-/// </summary>
+/// <summary>Which public page to load. A page below 1 is read as 1.</summary>
 public sealed record PostListQuery
 {
-    /// <summary>
-    /// Gets or sets the page.
-    /// </summary>
+    /// <summary>The page, starting at 1.</summary>
     public int Page { get; init; } = 1;
 
-    /// <summary>
-    /// Gets or sets the tag slug.
-    /// </summary>
+    /// <summary>When set, only posts with this tag. An unknown slug is not found.</summary>
     public string? TagSlug { get; init; }
 
-    /// <summary>
-    /// Gets or sets the category slug.
-    /// </summary>
+    /// <summary>When set, only posts in this category. An unknown slug is not found.</summary>
     public string? CategorySlug { get; init; }
 
-    /// <summary>
-    /// Gets or sets the search.
-    /// </summary>
+    /// <summary>When set, posts whose title, excerpt, or source contains this text.</summary>
     public string? Search { get; init; }
 }
 
@@ -148,11 +123,9 @@ public sealed record PostListResult(PagedList<PostSummaryDto> Posts, TagDto? Tag
 /// <summary>A line in the archive. <see cref="PublishedAt"/> is already in the blog's time zone.</summary>
 public sealed record ArchiveEntry(string Title, string Slug, DateTime PublishedAt);
 
-/// <summary>
-/// Represents the archive year.
-/// </summary>
-/// <param name="Year">The year.</param>
-/// <param name="Posts">The posts.</param>
+/// <summary>One year of the archive, newest post first.</summary>
+/// <param name="Year">The year in the blog's time zone.</param>
+/// <param name="Posts">The visible posts published in that year.</param>
 public sealed record ArchiveYear(int Year, IReadOnlyList<ArchiveEntry> Posts);
 
 /// <summary>A post as the editor's list shows it.</summary>
@@ -167,29 +140,19 @@ public sealed record AdminPostRow(
     string? CategoryName,
     bool IsFeatured);
 
-/// <summary>
-/// Represents the admin post query.
-/// </summary>
+/// <summary>Which editor page to load. The page size is clamped from 1 to 200.</summary>
 public sealed record AdminPostQuery
 {
-    /// <summary>
-    /// Gets or sets the page.
-    /// </summary>
+    /// <summary>The page, starting at 1. A lower value is read as 1.</summary>
     public int Page { get; init; } = 1;
 
-    /// <summary>
-    /// Gets or sets the page size.
-    /// </summary>
+    /// <summary>Rows on the page. The default is 20, and the service clamps it from 1 to 200.</summary>
     public int PageSize { get; init; } = 20;
 
-    /// <summary>
-    /// Gets or sets the filter.
-    /// </summary>
+    /// <summary>Which states to include. The default is every state.</summary>
     public PostFilter Filter { get; init; } = PostFilter.All;
 
-    /// <summary>
-    /// Gets or sets the search.
-    /// </summary>
+    /// <summary>When set, posts whose title or slug contains this text.</summary>
     public string? Search { get; init; }
 }
 
@@ -223,89 +186,59 @@ public sealed record PostEditDto(
 /// </summary>
 public sealed record SavePostRequest
 {
-    /// <summary>
-    /// Gets or sets the identifier.
-    /// </summary>
+    /// <summary>The post to update. <see langword="null"/> creates one.</summary>
     public int? Id { get; set; }
 
-    /// <summary>
-    /// Gets or sets the title.
-    /// </summary>
+    /// <summary>The title. Required.</summary>
     public string Title { get; set; } = string.Empty;
 
     /// <summary>Empty to derive one from the title.</summary>
     public string? Slug { get; set; }
 
-    /// <summary>
-    /// Gets or sets the summary.
-    /// </summary>
+    /// <summary>The author's summary. Blank falls back to an excerpt of the body.</summary>
     public string? Summary { get; set; }
 
-    /// <summary>
-    /// Gets or sets the content format.
-    /// </summary>
+    /// <summary>Whether <see cref="Content"/> is Markdown or HTML.</summary>
     public ContentFormat ContentFormat { get; set; }
 
-    /// <summary>
-    /// Gets or sets the content.
-    /// </summary>
+    /// <summary>The source. Required when <see cref="Status"/> is published.</summary>
     public string Content { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the cover image URL.
-    /// </summary>
+    /// <summary>A site path starting with one slash, or an absolute http(s) address. Blank means no cover.</summary>
     public string? CoverImageUrl { get; set; }
 
-    /// <summary>
-    /// Gets or sets the cover image alt.
-    /// </summary>
+    /// <summary>The cover's alternative text.</summary>
     public string? CoverImageAlt { get; set; }
 
-    /// <summary>
-    /// Gets or sets the meta title.
-    /// </summary>
+    /// <summary>The title for search results. Blank uses the post title.</summary>
     public string? MetaTitle { get; set; }
 
-    /// <summary>
-    /// Gets or sets the meta description.
-    /// </summary>
+    /// <summary>The description for search results. Blank uses the excerpt.</summary>
     public string? MetaDescription { get; set; }
 
-    /// <summary>
-    /// Gets or sets the canonical URL.
-    /// </summary>
+    /// <summary>A full http(s) address for the canonical link. Blank uses the blog address.</summary>
     public string? CanonicalUrl { get; set; }
 
-    /// <summary>
-    /// Gets or sets the status.
-    /// </summary>
+    /// <summary>Draft or published. Publishing with an empty date uses now, or keeps the date the post already has.</summary>
     public PostStatus Status { get; set; }
 
     /// <summary>UTC. Left empty on a published post, it becomes the moment of saving.</summary>
     public DateTime? PublishedAt { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance is featured.
-    /// </summary>
+    /// <summary><see langword="true"/> marks the post featured.</summary>
     public bool IsFeatured { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance is comments enabled.
-    /// </summary>
+    /// <summary><see langword="true"/> lets the comments component be shown. The default is <see langword="true"/>.</summary>
     public bool CommentsEnabled { get; set; } = true;
 
-    /// <summary>
-    /// Gets or sets the category identifier.
-    /// </summary>
+    /// <summary>The category, or <see langword="null"/> to leave the post uncategorised. An unknown id is invalid.</summary>
     public int? CategoryId { get; set; }
 
     /// <summary>Tag names. Unknown names become new tags.</summary>
     public IList<string> Tags { get; set; } = [];
 }
 
-/// <summary>
-/// Represents the sitemap entry.
-/// </summary>
-/// <param name="Path">The path.</param>
-/// <param name="LastModified">The last modified.</param>
+/// <summary>One location in the sitemap. The path is root-relative and follows the configured base path.</summary>
+/// <param name="Path">The path, such as <c>/blog/welcome</c>.</param>
+/// <param name="LastModified">When the location last changed, in UTC, or <see langword="null"/> for the index when the blog has no posts.</param>
 public sealed record SitemapEntry(string Path, DateTime? LastModified);

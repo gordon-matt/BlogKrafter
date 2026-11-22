@@ -3,40 +3,28 @@ namespace BlogKrafter.Models;
 /// <summary><see cref="PostCount"/> counts posts readers can see on public lists, and every post on editor lists.</summary>
 public sealed record CategoryDto(int Id, string Name, string Slug, string? Description, int SortOrder, int PostCount);
 
-/// <summary>
-/// Represents the tag DTO.
-/// </summary>
-/// <param name="Id">The identifier.</param>
-/// <param name="Name">The name.</param>
-/// <param name="Slug">The slug.</param>
-/// <param name="PostCount">The post count.</param>
+/// <summary>A tag and how many posts use it. Suggestions from the tag search report a count of zero.</summary>
+/// <param name="Id">The tag id.</param>
+/// <param name="Name">The name authors type.</param>
+/// <param name="Slug">The address segment.</param>
+/// <param name="PostCount">Posts using the tag, or zero on a search suggestion.</param>
 public sealed record TagDto(int Id, string Name, string Slug, int PostCount);
 
-/// <summary>
-/// Represents the save category request.
-/// </summary>
+/// <summary>A category to create or update. A missing id creates one.</summary>
 public sealed record SaveCategoryRequest
 {
-    /// <summary>
-    /// Gets or sets the identifier.
-    /// </summary>
+    /// <summary>The category to update. <see langword="null"/> creates one.</summary>
     public int? Id { get; set; }
 
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
+    /// <summary>The name. Required.</summary>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>Empty to derive one from the name.</summary>
     public string? Slug { get; set; }
 
-    /// <summary>
-    /// Gets or sets the description.
-    /// </summary>
+    /// <summary>Optional text shown with the category.</summary>
     public string? Description { get; set; }
 
-    /// <summary>
-    /// Gets or sets the sort order.
-    /// </summary>
+    /// <summary>Lower comes first. The default is 0.</summary>
     public int SortOrder { get; set; }
 }

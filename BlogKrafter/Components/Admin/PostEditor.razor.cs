@@ -8,9 +8,7 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Admin;
 
-/// <summary>
-/// Represents the post editor.
-/// </summary>
+/// <summary>Creates a post, or edits the one whose id was passed. The body is the source, and saving goes through the post service.</summary>
 public partial class PostEditor
 {
     private const string LocalInputFormat = "yyyy-MM-dd'T'HH:mm";

@@ -9,27 +9,19 @@ public partial class PostList
     private PostListResult? result;
     private string? loadError;
 
-    /// <summary>
-    /// Gets or sets the page.
-    /// </summary>
+    /// <summary>The page, starting at 1.</summary>
     [Parameter]
     public int Page { get; set; } = 1;
 
-    /// <summary>
-    /// Gets or sets the search.
-    /// </summary>
+    /// <summary>When set, posts whose title, excerpt, or source contains this text.</summary>
     [Parameter]
     public string? Search { get; set; }
 
-    /// <summary>
-    /// Gets or sets the tag slug.
-    /// </summary>
+    /// <summary>When set, only posts with this tag. An unknown slug is a not-found navigation.</summary>
     [Parameter]
     public string? TagSlug { get; set; }
 
-    /// <summary>
-    /// Gets or sets the category slug.
-    /// </summary>
+    /// <summary>When set, only posts in this category. An unknown slug is a not-found navigation.</summary>
     [Parameter]
     public string? CategorySlug { get; set; }
 

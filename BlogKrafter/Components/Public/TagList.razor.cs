@@ -1,13 +1,9 @@
 namespace BlogKrafter.Components.Public;
 
-/// <summary>
-/// Represents the tag list.
-/// </summary>
+/// <summary>Links to the tags named on a post.</summary>
 public partial class TagList
 {
-    /// <summary>
-    /// Gets or sets the tags.
-    /// </summary>
+    /// <summary>The tags to link. Empty shows nothing.</summary>
     [Parameter]
     public IReadOnlyList<TagRef> Tags { get; set; } = [];
 

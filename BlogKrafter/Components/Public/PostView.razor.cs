@@ -6,7 +6,8 @@ using Heroicsoft.NetForge.Results;
 namespace BlogKrafter.Components.Public;
 
 /// <summary>
-/// Represents the post view.
+/// One post. An old slug redirects to the current one and keeps <c>?preview=true</c> when preview is on.
+/// A missing post, or a preview the caller may not see, is a not-found navigation.
 /// </summary>
 public partial class PostView
 {
@@ -14,9 +15,7 @@ public partial class PostView
     private string? loadError;
     private bool notFound;
 
-    /// <summary>
-    /// Gets or sets the slug.
-    /// </summary>
+    /// <summary>The address segment. Required.</summary>
     [Parameter, EditorRequired]
     public string Slug { get; set; } = string.Empty;
 

@@ -6,12 +6,9 @@ namespace BlogKrafter;
 /// </summary>
 public enum PostStatus
 {
-    /// <summary>
-    /// The draft value.
-    /// </summary>
+    /// <summary>Not shown to readers. The value is 0.</summary>
     Draft = 0,
-    /// <summary>
-    /// The published value.
-    /// </summary>
+
+    /// <summary>Live once <c>PublishedAt</c> has arrived. A future date stays hidden until then. The value is 1.</summary>
     Published = 1,
 }

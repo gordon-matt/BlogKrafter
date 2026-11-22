@@ -10,21 +10,15 @@ public partial class BlogSidebar
     private IReadOnlyList<CategoryDto> categories = [];
     private IReadOnlyList<TagDto> tags = [];
 
-    /// <summary>
-    /// Gets or sets the search.
-    /// </summary>
+    /// <summary>The search the box shows. Blank leaves it empty.</summary>
     [Parameter]
     public string? Search { get; set; }
 
-    /// <summary>
-    /// Gets or sets the active tag.
-    /// </summary>
+    /// <summary>The tag slug to highlight. <see langword="null"/> highlights none.</summary>
     [Parameter]
     public string? ActiveTag { get; set; }
 
-    /// <summary>
-    /// Gets or sets the active category.
-    /// </summary>
+    /// <summary>The category slug to highlight. <see langword="null"/> highlights none.</summary>
     [Parameter]
     public string? ActiveCategory { get; set; }
 

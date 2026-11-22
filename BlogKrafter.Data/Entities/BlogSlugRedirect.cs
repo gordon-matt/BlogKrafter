@@ -6,36 +6,24 @@ namespace BlogKrafter.Data.Entities;
 /// </summary>
 public class BlogSlugRedirect : BaseEntity<int>
 {
-    /// <summary>
-    /// Gets or sets the tenant identifier.
-    /// </summary>
+    /// <summary>Empty for a single-site host. The old slug is unique with this value.</summary>
     public string TenantId { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the slug.
-    /// </summary>
+    /// <summary>The address the post used to have.</summary>
     public string Slug { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the post identifier.
-    /// </summary>
+    /// <summary>The post the old address now points at. Deleting the post deletes the redirect.</summary>
     public int PostId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the created at.
-    /// </summary>
+    /// <summary>When the redirect was recorded, in UTC.</summary>
     public DateTime CreatedAt { get; set; }
 }
 
-/// <summary>
-/// Represents the blog slug redirect map.
-/// </summary>
+/// <summary>Maps an old slug. The pair of tenant and slug is unique, and deleting the post deletes the row.</summary>
 public sealed class BlogSlugRedirectMap : IEntityTypeConfiguration<BlogSlugRedirect>
 {
-    /// <summary>
-    /// Configures the value.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
+    /// <summary>Maps the redirects table, the UTC timestamp, and the unique slug index.</summary>
+    /// <param name="builder">The redirect builder.</param>
     public void Configure(EntityTypeBuilder<BlogSlugRedirect> builder)
     {
         builder.ToTable(Constants.Tables.SlugRedirects);

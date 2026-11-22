@@ -6,41 +6,27 @@ namespace BlogKrafter.Data.Entities;
 /// </summary>
 public class BlogPostTag : IEntity
 {
-    /// <summary>
-    /// Gets or sets the post identifier.
-    /// </summary>
+    /// <summary>The post. Deleting the post deletes this row.</summary>
     public int PostId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the tag identifier.
-    /// </summary>
+    /// <summary>The tag. Deleting the tag deletes this row.</summary>
     public int TagId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the post.
-    /// </summary>
+    /// <summary>The post this row links.</summary>
     public BlogPost? Post { get; set; }
 
-    /// <summary>
-    /// Gets or sets the tag.
-    /// </summary>
+    /// <summary>The tag this row links.</summary>
     public BlogTag? Tag { get; set; }
 
-    /// <summary>
-    /// Gets the key values.
-    /// </summary>
+    /// <summary>The composite key, <see cref="PostId"/> then <see cref="TagId"/>, for the repository.</summary>
     public object[] KeyValues => [PostId, TagId];
 }
 
-/// <summary>
-/// Represents the blog post tag map.
-/// </summary>
+/// <summary>Maps the join table. Both foreign keys cascade, so deleting a post or a tag removes the links.</summary>
 public sealed class BlogPostTagMap : IEntityTypeConfiguration<BlogPostTag>
 {
-    /// <summary>
-    /// Configures the value.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
+    /// <summary>Maps the composite key and the cascading relationships.</summary>
+    /// <param name="builder">The join-row builder.</param>
     public void Configure(EntityTypeBuilder<BlogPostTag> builder)
     {
         builder.ToTable(Constants.Tables.PostTags);

@@ -7,6 +7,7 @@ namespace BlogKrafter.Components.Public;
 /// Everything under the blog's address, chosen from the route values. Render it from a page whose
 /// routes match <see cref="BlogKrafterOptions.BasePath"/> to serve the blog somewhere other than <c>/blog</c>:
 /// <c>{base}</c>, <c>{base}/{Slug}</c>, <c>{base}/tag/{Tag}</c> and <c>{base}/category/{Category}</c>.
+/// A preview query is honored only for a user who passes the manage policy.
 /// </summary>
 public partial class BlogView
 {
@@ -16,15 +17,11 @@ public partial class BlogView
     [Parameter]
     public string? Slug { get; set; }
 
-    /// <summary>
-    /// Gets or sets the tag.
-    /// </summary>
+    /// <summary>The tag slug from the route.</summary>
     [Parameter]
     public string? Tag { get; set; }
 
-    /// <summary>
-    /// Gets or sets the category.
-    /// </summary>
+    /// <summary>The category slug from the route.</summary>
     [Parameter]
     public string? Category { get; set; }
 

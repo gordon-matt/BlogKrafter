@@ -13,9 +13,6 @@ public interface IBlogTenantProvider
 /// <summary>The default for a single-site host: everything belongs to one blog.</summary>
 public sealed class SingleTenantProvider : IBlogTenantProvider
 {
-    /// <summary>
-    /// Gets the tenant identifier.
-    /// </summary>
-    /// <returns>The tenant identifier.</returns>
+    /// <inheritdoc/>
     public string GetTenantId() => string.Empty;
 }

@@ -8,24 +8,20 @@ namespace BlogKrafter.Content;
 /// </summary>
 public interface IBlogHtmlSanitizer
 {
-    /// <summary>
-    /// Sanitizes the value.
-    /// </summary>
-    /// <param name="html">The HTML.</param>
-    /// <returns>The string.</returns>
+    /// <summary>Returns the HTML the host's policy allows.</summary>
+    /// <param name="html">The markup produced from a post.</param>
+    /// <returns>The cleaned markup.</returns>
     string Sanitize(string html);
 }
 
 /// <summary>
-/// Represents the blog HTML sanitizer.
+/// The default sanitizer. It uses <see cref="Ganss.Xss.HtmlSanitizer"/> and also allows figure, figcaption, and iframe, plus the class, target, rel, loading, allow, allowfullscreen, and frameborder attributes and the mailto and tel schemes.
 /// </summary>
 public sealed class BlogHtmlSanitizer : IBlogHtmlSanitizer
 {
     private readonly HtmlSanitizer sanitizer;
 
-    /// <summary>
-    /// Initializes a new instance of the BlogHtmlSanitizer class.
-    /// </summary>
+    /// <summary>Creates the sanitizer with those extra tags, attributes, and schemes.</summary>
     public BlogHtmlSanitizer()
     {
         sanitizer = new HtmlSanitizer();
@@ -43,10 +39,8 @@ public sealed class BlogHtmlSanitizer : IBlogHtmlSanitizer
         sanitizer.AllowedSchemes.Add("tel");
     }
 
-    /// <summary>
-    /// Sanitizes the value.
-    /// </summary>
-    /// <param name="html">The HTML.</param>
-    /// <returns>The string.</returns>
+    /// <summary>Cleans the markup. Blank or white space returns an empty string. Frames from other hosts are removed later, while the post is rendered.</summary>
+    /// <param name="html">The markup produced from a post.</param>
+    /// <returns>The cleaned markup, or an empty string.</returns>
     public string Sanitize(string html) => string.IsNullOrWhiteSpace(html) ? string.Empty : sanitizer.Sanitize(html);
 }

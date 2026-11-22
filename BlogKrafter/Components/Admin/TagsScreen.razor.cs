@@ -5,9 +5,7 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Admin;
 
-/// <summary>
-/// Represents the tags screen.
-/// </summary>
+/// <summary>The editor's tag list. Tags can be renamed, which merges them when the new name already exists, or deleted. They are created by tagging a post.</summary>
 public partial class TagsScreen
 {
     private IReadOnlyList<TagDto>? tags;

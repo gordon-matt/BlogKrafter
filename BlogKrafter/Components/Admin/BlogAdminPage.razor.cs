@@ -8,15 +8,11 @@ public partial class BlogAdminPage
 {
     private bool isDefaultPath;
 
-    /// <summary>
-    /// Gets or sets the section.
-    /// </summary>
+    /// <summary><c>posts</c>, <c>categories</c>, or <c>tags</c>. Empty means posts.</summary>
     [Parameter]
     public string? Section { get; set; }
 
-    /// <summary>
-    /// Gets or sets the identifier.
-    /// </summary>
+    /// <summary>A post id, or <c>new</c>.</summary>
     [Parameter]
     public string? Id { get; set; }
 

@@ -8,21 +8,15 @@ public partial class BlogPage
 {
     private bool isDefaultPath;
 
-    /// <summary>
-    /// Gets or sets the slug.
-    /// </summary>
+    /// <summary>A post's slug, or <c>archive</c>. Empty is the index.</summary>
     [Parameter]
     public string? Slug { get; set; }
 
-    /// <summary>
-    /// Gets or sets the tag.
-    /// </summary>
+    /// <summary>The tag slug from the route.</summary>
     [Parameter]
     public string? Tag { get; set; }
 
-    /// <summary>
-    /// Gets or sets the category.
-    /// </summary>
+    /// <summary>The category slug from the route.</summary>
     [Parameter]
     public string? Category { get; set; }
 

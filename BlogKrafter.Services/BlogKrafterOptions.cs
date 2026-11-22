@@ -5,19 +5,13 @@ namespace BlogKrafter;
 /// </summary>
 public sealed class BlogKrafterOptions
 {
-    /// <summary>
-    /// The section name constant.
-    /// </summary>
+    /// <summary>The configuration section these options bind from. The value is <c>BlogKrafter</c>.</summary>
     public const string SectionName = "BlogKrafter";
 
-    /// <summary>
-    /// The default base path constant.
-    /// </summary>
+    /// <summary>The public path the built-in pages answer at. The value is <c>/blog</c>.</summary>
     public const string DefaultBasePath = "/blog";
 
-    /// <summary>
-    /// The default admin path constant.
-    /// </summary>
+    /// <summary>The editor path the built-in pages answer at. The value is <c>/admin/blog</c>.</summary>
     public const string DefaultAdminPath = "/admin/blog";
 
     /// <summary>
@@ -33,9 +27,7 @@ public sealed class BlogKrafterOptions
     /// <summary>The heading on the post list and the title of the feeds.</summary>
     public string Title { get; set; } = "Blog";
 
-    /// <summary>
-    /// Gets or sets the description.
-    /// </summary>
+    /// <summary>Text under the blog title and in the feeds. <see langword="null"/> leaves it out.</summary>
     public string? Description { get; set; }
 
     /// <summary>
@@ -44,19 +36,13 @@ public sealed class BlogKrafterOptions
     /// </summary>
     public string? SiteUrl { get; set; }
 
-    /// <summary>
-    /// Gets or sets the page size.
-    /// </summary>
+    /// <summary>Posts on each public page. The default is 10. A value below 1 is read as 1.</summary>
     public int PageSize { get; set; } = 10;
 
-    /// <summary>
-    /// Gets or sets the feed item count.
-    /// </summary>
+    /// <summary>Posts in each feed. The default is 20. A value below 1 is read as 1.</summary>
     public int FeedItemCount { get; set; } = 20;
 
-    /// <summary>
-    /// Gets or sets the related post count.
-    /// </summary>
+    /// <summary>Related posts under a post. The default is 3. Zero hides them.</summary>
     public int RelatedPostCount { get; set; } = 3;
 
     /// <summary>Which editors authors can choose from.</summary>
@@ -65,9 +51,7 @@ public sealed class BlogKrafterOptions
     /// <summary>The format a new post starts in when both are allowed.</summary>
     public ContentFormat DefaultContentFormat { get; set; } = ContentFormat.Markdown;
 
-    /// <summary>
-    /// Gets or sets the words per minute.
-    /// </summary>
+    /// <summary>Words per minute used for reading time. The default is 220. A value below 1 is read as 1.</summary>
     public int WordsPerMinute { get; set; } = 220;
 
     /// <summary>A post gets a table of contents when it has at least this many second- and third-level headings.</summary>
@@ -119,14 +103,10 @@ public sealed class BlogKrafterOptions
     public Type? CommentsComponent { get; set; }
 }
 
-/// <summary>
-/// Specifies the blog editor mode.
-/// </summary>
+/// <summary>Which editors a new or edited post may use.</summary>
 public enum BlogEditorMode
 {
-    /// <summary>
-    /// The markdown value.
-    /// </summary>
+    /// <summary>Markdown only.</summary>
     Markdown,
 
     /// <summary>Requires a Pickstack rich text editor to be registered.</summary>

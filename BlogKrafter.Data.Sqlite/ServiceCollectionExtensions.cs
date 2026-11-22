@@ -4,14 +4,17 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BlogKrafter.Data.Sqlite;
 
-/// <summary>
-/// Provides extension methods for service collections.
-/// </summary>
+/// <summary>Registers SQLite as BlogKrafter's storage.</summary>
 public static class ServiceCollectionExtensions
 {
     extension(IServiceCollection services)
     {
-        /// <summary>Stores BlogKrafter's posts, categories and tags in SQLite.</summary>
+        /// <summary>
+        /// Stores BlogKrafter's posts, categories and tags in SQLite.
+        /// Replaces a factory already registered, so calling a different provider afterwards switches storage.
+        /// Tables are prefixed because SQLite has no schemas.
+        /// </summary>
+        /// <returns>The same service collection.</returns>
         /// <param name="connectionString">
         /// A SQLite connection string. When omitted, the blog goes to <c>BlogKrafter.db</c> under the
         /// user's local application data folder, which survives redeploying the app's own folder.

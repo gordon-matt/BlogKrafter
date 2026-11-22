@@ -19,26 +19,21 @@ public partial class ContentEditor : IDisposable
     private DotNetObjectReference<ContentEditor>? selfReference;
 
     /// <summary>
-    /// Gets or sets the format.
+    /// Whether the body is Markdown or HTML. Changing Markdown to HTML renders it first.
+    /// Changing HTML back keeps that HTML as the Markdown source.
     /// </summary>
     [Parameter]
     public ContentFormat Format { get; set; }
 
-    /// <summary>
-    /// Gets or sets the format changed.
-    /// </summary>
+    /// <summary>Raised when the author switches format.</summary>
     [Parameter]
     public EventCallback<ContentFormat> FormatChanged { get; set; }
 
-    /// <summary>
-    /// Gets or sets the content.
-    /// </summary>
+    /// <summary>The source the editor shows.</summary>
     [Parameter]
     public string Content { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the content changed.
-    /// </summary>
+    /// <summary>Raised when the source changes.</summary>
     [Parameter]
     public EventCallback<string> ContentChanged { get; set; }
 
@@ -117,7 +112,9 @@ public partial class ContentEditor : IDisposable
         }
     }
 
-    /// <summary>Called by the file picker with the chosen image address.</summary>
+    /// <summary>Called by the file picker. A blank address is ignored; any other address is inserted as a Markdown image.</summary>
+    /// <param name="url">The address the picker returned.</param>
+    /// <returns>A task that completes once the image has been inserted, or immediately when there is nothing to insert.</returns>
     [JSInvokable]
     public async Task InsertImageAsync(string? url)
     {

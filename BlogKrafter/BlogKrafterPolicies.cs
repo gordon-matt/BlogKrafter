@@ -1,8 +1,6 @@
 namespace BlogKrafter;
 
-/// <summary>
-/// Provides blog krafter policies.
-/// </summary>
+/// <summary>Authorization policy names the editor screens use.</summary>
 public static class BlogKrafterPolicies
 {
     /// <summary>

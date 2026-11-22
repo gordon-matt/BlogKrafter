@@ -5,9 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BlogKrafter;
 
-/// <summary>
-/// Provides extension methods for service collections.
-/// </summary>
+/// <summary>Registers the blog's pages, editor, and the manage policy.</summary>
 public static class ServiceCollectionExtensions
 {
     extension(IServiceCollection services)
@@ -17,7 +15,11 @@ public static class ServiceCollectionExtensions
         /// policy. Pair with a storage provider (<c>AddBlogKrafterSqlite</c>, <c>AddBlogKrafterSqlServer</c>,
         /// <c>AddBlogKrafterNpgsql</c> or <c>AddBlogKrafterMySql</c>) and <c>app.MapBlogKrafter()</c>.
         /// For a rich text editor and file picker, also register them with Pickstack.
+        /// A policy the host already registered under that name is left as it is. With no manager roles, any signed-in user passes it.
+        /// A tenant provider, file root, or user context the host already registered is left in place, so register those first.
         /// </summary>
+        /// <param name="configure">Adjusts the options. <see langword="null"/> keeps the defaults.</param>
+        /// <returns>The same service collection.</returns>
         public IServiceCollection AddBlogKrafter(Action<BlogKrafterOptions>? configure = null)
         {
             services.AddBlogKrafterServices(configure);

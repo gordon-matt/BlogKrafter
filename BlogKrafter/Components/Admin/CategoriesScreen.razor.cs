@@ -5,9 +5,7 @@ using Heroicsoft.NetForge.Results;
 
 namespace BlogKrafter.Components.Admin;
 
-/// <summary>
-/// Represents the categories screen.
-/// </summary>
+/// <summary>The editor's category list. Categories can be created, edited, and deleted here.</summary>
 public partial class CategoriesScreen
 {
     private IReadOnlyList<CategoryDto>? categories;

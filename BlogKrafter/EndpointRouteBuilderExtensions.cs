@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace BlogKrafter;
 
-/// <summary>
-/// Provides extension methods for endpoint route builders.
-/// </summary>
+/// <summary>Maps the blog's RSS, Atom, and sitemap endpoints.</summary>
 public static class EndpointRouteBuilderExtensions
 {
     extension(IEndpointRouteBuilder endpoints)
@@ -15,7 +13,10 @@ public static class EndpointRouteBuilderExtensions
         /// Maps the RSS, Atom and sitemap documents under <see cref="BlogKrafterOptions.BasePath"/>.
         /// The pages themselves are Razor components: add <see cref="BlogKrafterComponents.Assembly"/>
         /// to the router and to <c>MapRazorComponents</c>, or host them on pages of your own.
+        /// A document that can be built is returned as XML in UTF-8. A failed read is an HTTP 500 problem titled "The feed could not be built."
+        /// The site address is <see cref="BlogKrafterOptions.SiteUrl"/>, or the request's scheme, host, and path base when that is blank.
         /// </summary>
+        /// <returns>The <c>feeds</c> group, so the host can add its own endpoints beside them.</returns>
         public RouteGroupBuilder MapBlogKrafter()
         {
             var options = endpoints.ServiceProvider.GetRequiredService<IOptions<BlogKrafterOptions>>().Value;
